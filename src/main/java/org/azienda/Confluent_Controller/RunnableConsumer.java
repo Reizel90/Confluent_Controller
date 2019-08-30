@@ -1,7 +1,8 @@
 package org.azienda.Confluent_Controller;
-import java.util.Properties;
 
-import kafka.*;
+import kafka.KafkaMain;
+
+import java.util.Properties;
 
 public class RunnableConsumer implements Runnable{
 	

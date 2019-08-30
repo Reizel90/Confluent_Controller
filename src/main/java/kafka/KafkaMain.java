@@ -1,9 +1,5 @@
 package kafka;
 
-import java.util.Properties;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -15,6 +11,10 @@ import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.LongSerializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
+
+import java.util.Properties;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 public class KafkaMain {
 	//link da cui ho preso esempio
@@ -59,7 +59,6 @@ public class KafkaMain {
 			try {
 				TimeUnit.SECONDS.sleep(5);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				System.out.println(e +"");
 				e.printStackTrace();
 			}
