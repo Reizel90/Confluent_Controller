@@ -1,0 +1,85 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.azienda</groupId>
+  <artifactId>controller</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>controller</name>
+  <url>http://maven.apache.org</url>
+
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<java.version>1.8</java.version>
+		<scala.binary.version>2.12</scala.binary.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<sql.server.version>7.4.1.jre8</sql.server.version>
+        <kafka.connect.cdc.version>0.0.1.5</kafka.connect.cdc.version>
+        <io.debezium.version>0.9.5.Final</io.debezium.version>
+	</properties>
+
+<dependencies>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka -->
+		<dependency>
+			<groupId>org.apache.kafka</groupId>
+			<artifactId>kafka_2.12</artifactId>
+			<version>2.3.0</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.kafka/connect-api -->
+		<dependency>
+			<groupId>org.apache.kafka</groupId>
+			<artifactId>connect-api</artifactId>
+			<version>2.3.0</version>
+		</dependency>
+		
+		
+		
+		<!-- https://mvnrepository.com/artifact/io.debezium/debezium-core -->
+		<dependency>
+		    <groupId>io.debezium</groupId>
+		    <artifactId>debezium-core</artifactId>
+		    <version>0.9.5.Final</version>
+		</dependency>
+		
+		
+		<!-- https://mvnrepository.com/artifact/io.debezium/debezium-connector-sqlserver -->
+		<dependency>
+		    <groupId>io.debezium</groupId>
+		    <artifactId>debezium-connector-sqlserver</artifactId>
+		    <version>0.9.5.Final</version>
+		</dependency>
+		
+
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.9.9.3</version>
+		</dependency>
+		
+		
+		
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.spark/spark-core -->
+		<dependency>
+			<groupId>org.apache.spark</groupId>
+			<artifactId>spark-core_2.11</artifactId>
+			<version>2.4.3</version>
+		</dependency>
+
+
+
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>
