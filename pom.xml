@@ -21,66 +21,99 @@
         <io.debezium.version>0.9.5.Final</io.debezium.version>
 	</properties>
 
-<dependencies>
+    <dependencies>
 
-		<!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka -->
-		<dependency>
-			<groupId>org.apache.kafka</groupId>
-			<artifactId>kafka_2.12</artifactId>
-			<version>2.3.0</version>
-		</dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka -->
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka_2.11</artifactId>
+            <version>2.3.0</version>
+        </dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.apache.kafka/connect-api -->
-		<dependency>
-			<groupId>org.apache.kafka</groupId>
-			<artifactId>connect-api</artifactId>
-			<version>2.3.0</version>
-		</dependency>
-		
-		
-		
-		<!-- https://mvnrepository.com/artifact/io.debezium/debezium-core -->
-		<dependency>
-		    <groupId>io.debezium</groupId>
-		    <artifactId>debezium-core</artifactId>
-		    <version>0.9.5.Final</version>
-		</dependency>
-		
-		
-		<!-- https://mvnrepository.com/artifact/io.debezium/debezium-connector-sqlserver -->
-		<dependency>
-		    <groupId>io.debezium</groupId>
-		    <artifactId>debezium-connector-sqlserver</artifactId>
-		    <version>0.9.5.Final</version>
-		</dependency>
-		
+        <!-- https://mvnrepository.com/artifact/org.apache.kafka/connect-api -->
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>connect-api</artifactId>
+            <version>2.3.0</version>
+        </dependency>
 
-		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>2.9.9.3</version>
-		</dependency>
-		
-		
-		
-		
-		<!-- https://mvnrepository.com/artifact/org.apache.spark/spark-core -->
-		<dependency>
-			<groupId>org.apache.spark</groupId>
-			<artifactId>spark-core_2.11</artifactId>
-			<version>2.4.3</version>
-		</dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients -->
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-streaming-kafka-0-10 -->
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-streaming-kafka-0-10_2.11</artifactId>
+            <version>2.4.4</version>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+        <!-- to send REST requests to confluent server -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.9</version>
+        </dependency>
 
 
 
 
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+
+    <!-- https://mvnrepository.com/artifact/io.debezium/debezium-core -->
+        <dependency>
+            <groupId>io.debezium</groupId>
+            <artifactId>debezium-core</artifactId>
+            <version>0.9.5.Final</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.debezium/debezium-connector-sqlserver -->
+        <dependency>
+            <groupId>io.debezium</groupId>
+            <artifactId>debezium-connector-sqlserver</artifactId>
+            <version>0.9.5.Final</version>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.9.3</version>
+        </dependency>
+
+
+
+
+        <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-core -->
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-core_2.11</artifactId>
+            <version>2.4.3</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-streaming -->
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-streaming_2.11</artifactId>
+            <version>2.4.4</version>
+            <scope>provided</scope>
+        </dependency>
+
+
+
+
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 	
 </project>

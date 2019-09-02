@@ -1,0 +1,15 @@
+{
+  "name": "inventory-connector",
+  "config": {
+    "connector.class": "io.debezium.connector.sqlserver.SqlServerConnector",
+    "database.hostname": "192.168.1.108",
+    "database.port": "1433",
+    "database.user": "sa",
+    "database.password": "sa",
+    "database.dbname": "SAMT4",
+    "database.server.name": "Reizel90",
+    "table.whitelist": "dbo.IVA",
+    "database.history.kafka.bootstrap.servers": "kafka:9092",
+    "database.history.kafka.topic": "test"
+  }
+}

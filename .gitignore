@@ -3,7 +3,7 @@
 
 .idea
 .settings
-
+src/main/resources
 *.iml
 
 # Log file
