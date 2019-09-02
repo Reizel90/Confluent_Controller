@@ -1,6 +1,5 @@
-package producer;
+package g.liva;
 
-import org.apache.avro.generic.GenericData;
 import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.serialization.StringSerializer;
 

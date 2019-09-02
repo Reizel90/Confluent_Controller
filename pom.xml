@@ -51,9 +51,15 @@
             <version>2.4.4</version>
         </dependency>
 
+        <!-- to send REST requests to confluent server -->
+        <!-- thx Giovanni Liva -->
+        <dependency>
+            <groupId>org.toile-libre.libe</groupId>
+            <artifactId>curl</artifactId>
+            <version>LATEST</version>
+        </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
-        <!-- to send REST requests to confluent server -->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
