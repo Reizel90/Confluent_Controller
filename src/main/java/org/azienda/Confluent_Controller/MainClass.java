@@ -25,7 +25,7 @@ public class MainClass {
 
     public static void main(String[] args) throws IOException {
 
-        //rest_request(); //java.net.ConnectException: Connection timed out: connect alla linea get response code
+
 
 
 
@@ -35,7 +35,7 @@ public class MainClass {
         String resources_path = base_path  + "\\src\\main\\resources";
         System.out.println(resources_path);
 
-        //esempio configurazione proprietà connettore
+        // example connector properties config
 //        {
 //            "name": "inventory-connector",  (1)
 //            "config": {
@@ -102,6 +102,7 @@ public class MainClass {
         // TODO create a configuration file for the SQL Server Connector and
         //  use the Kafka Connect REST API to add that connector to your Kafka Connect cluster.
 
+        //rest_request(); //java.net.ConnectException: Connection timed out: connect //at "getresponsecode()" line
         URL urlForGetRequest = new URL("https://"+ testconnection + ":9092/connectors" );
         //URL urlForGetRequest = new URL("https://jsonplaceholder.typicode.com/posts/1");
         String readLine = null;
