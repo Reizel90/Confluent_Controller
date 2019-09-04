@@ -3,7 +3,7 @@ package db.entity;
 public class AAAEsempio {
 
     public int ID;
-    public String DATE = "0";
+    public String TIMESTAMP = "0";
     public int VALORE;
     public String CLASSE;
 
@@ -17,9 +17,9 @@ public class AAAEsempio {
         this.CLASSE = CLASSE;
     }
 
-    public AAAEsempio(int ID,String DATE, int VALORE, String CLASSE){
+    public AAAEsempio(int ID,String TIMESTAMP, int VALORE, String CLASSE){
         this.ID = ID;
-        this.DATE = DATE;
+        this.TIMESTAMP = TIMESTAMP;
         this.VALORE = VALORE;
         this.CLASSE = CLASSE;
     }
@@ -32,12 +32,12 @@ public class AAAEsempio {
         this.ID = ID;
     }
 
-    public void setDATE(String DATE) {
-        this.DATE = DATE;
+    public void setTIMESTAMP(String TIMESTAMP) {
+        this.TIMESTAMP = TIMESTAMP;
     }
 
-    public String getDATE(){
-        return DATE;
+    public String getTIMESTAMP(){
+        return TIMESTAMP;
     }
 
     public int getVALORE() {

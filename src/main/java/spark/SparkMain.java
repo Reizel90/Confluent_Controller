@@ -1,8 +1,12 @@
 package spark;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import db.entity.AAAEsempio;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.spark.SparkConf;
+import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.streaming.Durations;
@@ -13,6 +17,7 @@ import org.apache.spark.streaming.kafka010.KafkaUtils;
 import org.apache.spark.streaming.kafka010.LocationStrategies;
 import org.apache.spark.streaming.kafka010.OffsetRange;
 import org.azienda.Confluent_Controller.MainClass;
+import scala.Tuple2;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -52,7 +57,7 @@ public class SparkMain {
     public void read_topics_spark() throws InterruptedException {
 
         // Collection<String> topics2 = Arrays.asList("test-string-ZONE", "test-string-AAAEsempio");
-        Collection<String> topics2 = Arrays.asList("test-string-AAAEsempio");
+        Collection<String> topics2 = Arrays.asList("test-json-AAAEsempio");
 
         JavaInputDStream<ConsumerRecord<String, String>> stream2 =
             KafkaUtils.createDirectStream(
@@ -63,15 +68,29 @@ public class SparkMain {
 
         stream2.foreachRDD(rdd -> {
 
-//            ObjectMapper objectMapper = new ObjectMapper();
-//            objectMapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
-//            JavaPairRDD<String, Iterable<Integer>> x = rdd.map(p -> objectMapper.readValue(p.value()
-//                            .replace("=", ":")
-//                            .replace("Struct", ""),
-//                    AAAEsempio.class))
-//                    .mapToPair(p -> new Tuple2<>(p.getCLASSE(), p.getVALORE()))
-//                    .groupByKey();
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
+            JavaRDD<AAAEsempio> json_deserialized = rdd.map(p -> {
+                //System.out.println("STAMPA tutto "+p.toString());
+                return objectMapper
+                        .readValue(p.value()
+                                        .split(",\"payload\":")[1]
+                                        .substring(0, p.value().split(",\"payload\":")[1].length()-1)
+                        ,AAAEsempio.class);
+            });
 
+            JavaPairRDD<String, Iterable<Integer>> grouped = json_deserialized.mapToPair(p -> new Tuple2<>(p.getCLASSE(), p.getVALORE()))
+                    .groupByKey();
+
+                    grouped.foreach(tuple -> System.out.println("chiave " + tuple.toString()));
+                    //chiave (PALAZZO A      ,[152, 158, 144, 151, 152])
+                    //chiave (PALAZZO B      ,[112, 102, 116, 117, 101])
+                    //chiave (PALAZZO C      ,[194, 185, 179, 175, 192])
+
+            //x.foreach(y -> System.out.println("STAMPA X " + y.toString()));
+            //STAMPA X db.entity.AAAEsempio@fa4ae23
+
+            System.out.println();
 
             // to show on console the contents of topics
             rdd.foreach(record -> {
