@@ -60,11 +60,11 @@ public class SparkMain {
         Collection<String> topics2 = Arrays.asList("test-json-AAAEsempio");
 
         JavaInputDStream<ConsumerRecord<String, String>> stream2 =
-            KafkaUtils.createDirectStream(
-                streamingContext,
-                LocationStrategies.PreferConsistent(),
-                ConsumerStrategies.<String, String>Subscribe(topics2, kafkaParams)
-            );
+                KafkaUtils.createDirectStream(
+                        streamingContext,
+                        LocationStrategies.PreferConsistent(),
+                        ConsumerStrategies.<String, String>Subscribe(topics2, kafkaParams)
+                );
 
         stream2.foreachRDD(rdd -> {
 
@@ -75,17 +75,17 @@ public class SparkMain {
                 return objectMapper
                         .readValue(p.value()
                                         .split(",\"payload\":")[1]
-                                        .substring(0, p.value().split(",\"payload\":")[1].length()-1)
-                        ,AAAEsempio.class);
+                                        .substring(0, p.value().split(",\"payload\":")[1].length() - 1)
+                                , AAAEsempio.class);
             });
 
             JavaPairRDD<String, Iterable<Integer>> grouped = json_deserialized.mapToPair(p -> new Tuple2<>(p.getCLASSE(), p.getVALORE()))
                     .groupByKey();
 
-                    grouped.foreach(tuple -> System.out.println("chiave " + tuple.toString()));
-                    //chiave (PALAZZO A      ,[152, 158, 144, 151, 152])
-                    //chiave (PALAZZO B      ,[112, 102, 116, 117, 101])
-                    //chiave (PALAZZO C      ,[194, 185, 179, 175, 192])
+            grouped.foreach(tuple -> System.out.println("grouped " + tuple.toString() + " - KEY: " + tuple._1 + " - VALUE: " + tuple._2));
+            //grouped (PALAZZO A      ,[152, 158, 144, 151, 152])
+            //grouped (PALAZZO B      ,[112, 102, 116, 117, 101])
+            //grouped (PALAZZO C      ,[194, 185, 179, 175, 192])
 
             //x.foreach(y -> System.out.println("STAMPA X " + y.toString()));
             //STAMPA X db.entity.AAAEsempio@fa4ae23
@@ -93,13 +93,13 @@ public class SparkMain {
             System.out.println();
 
             // to show on console the contents of topics
-            rdd.foreach(record -> {
-                record.value().replace("=", ":").replace("Struct", "");
-                System.out.println("record no conversion: " + record.toString());
-                //record no conversion: ConsumerRecord(topic = test-string-AAAEsempio, partition = 0, leaderEpoch = 0, offset = 14, CreateTime = 1567590742194, serialized key size = -1, serialized value size = 47, headers = RecordHeaders(headers = [], isReadOnly = false), key = null, value = Struct{ID=15,VALORE=192,CLASSE=PALAZZO C      })
-                System.out.println("value no conversion: " + record.value().toString());
-                // value no conversion: Struct{ID=29,CODICE=FZ  ,DESCR=FAENZA //(without the map)
-            });
+//            rdd.foreach(record -> {
+//                record.value().replace("=", ":").replace("Struct", "");
+//                System.out.println("record no conversion: " + record.toString());
+//                //record no conversion: ConsumerRecord(topic = test-string-AAAEsempio, partition = 0, leaderEpoch = 0, offset = 14, CreateTime = 1567590742194, serialized key size = -1, serialized value size = 47, headers = RecordHeaders(headers = [], isReadOnly = false), key = null, value = Struct{ID=15,VALORE=192,CLASSE=PALAZZO C      })
+//                System.out.println("value no conversion: " + record.value().toString());
+//                // value no conversion: Struct{ID=29,CODICE=FZ  ,DESCR=FAENZA //(without the map)
+//            });
         });
 
         streamingContext.start();
@@ -107,7 +107,7 @@ public class SparkMain {
 
     }
 
-    public void RDD_from_topic(){
+    public void RDD_from_topic() {
         // Import dependencies and create kafka params as in Create Direct Stream above
         OffsetRange[] offsetRanges = {
                 // topic, partition, inclusive starting offset, exclusive ending offset
@@ -188,7 +188,7 @@ public class SparkMain {
         //TODO need to understand what it does
 //        stream.mapToPair(record -> new Tuple2<>(record.key(), record.value()));
 
-        System.out.println("1direct count: " +stream.count());
+        System.out.println("1direct count: " + stream.count());
 
         // to print offsets
         // lambda expressions are closures.
@@ -220,7 +220,7 @@ public class SparkMain {
 
 //            System.out.println("--- New RDD with " + rdd.partitions().size()
 //                    + " partitions and " + rdd.count() + " records");
-           // --- New RDD with 2 partitions and 0 records
+            // --- New RDD with 2 partitions and 0 records
 
             rdd.foreach(record -> {
                 System.out.println("record json: " + record.toString());
@@ -265,7 +265,7 @@ public class SparkMain {
                         ConsumerStrategies.<String, String>Subscribe(topics, kafkaParams)
                 );
 
-        System.out.println("2direct count: " +stream.count());
+        System.out.println("2direct count: " + stream.count());
 
         stream.foreachRDD(rdd -> {
             rdd.foreach(record -> {
