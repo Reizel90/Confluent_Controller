@@ -17,9 +17,10 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 public class KafkaMain {
-	//link da cui ho preso esempio
-	//https://dzone.com/articles/kafka-producer-and-consumer-example
-	
+	// link da cui ho preso esempio
+	// https://dzone.com/articles/kafka-producer-and-consumer-example
+
+	///////////////////////////////// CONSUMER ///////////////////////////////////////////
 	public void runConsumer() {
 		Properties props = new Properties();
 		props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, IKafkaConstants.KAFKA_BROKERS);
@@ -66,7 +67,7 @@ public class KafkaMain {
 		consumer.close();
 	}
 	
-
+	//////////////////////////////// PRODUCER ///////////////////////////////////////////
 	public void runProducer() {
 		Properties props = new Properties();
 		props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, IKafkaConstants.KAFKA_BROKERS);
