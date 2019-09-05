@@ -1,15 +1,10 @@
 package spark;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import db.entity.AAAEsempio;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.spark.SparkConf;
-import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.api.java.function.PairFunction;
 import org.apache.spark.streaming.Durations;
 import org.apache.spark.streaming.api.java.JavaInputDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
@@ -18,7 +13,6 @@ import org.apache.spark.streaming.kafka010.KafkaUtils;
 import org.apache.spark.streaming.kafka010.LocationStrategies;
 import org.apache.spark.streaming.kafka010.OffsetRange;
 import org.azienda.Confluent_Controller.MainClass;
-import scala.Tuple2;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -27,33 +21,13 @@ import java.util.Map;
 
 public class SparkMain {
 
+
+    private JavaSparkContext sparkContext;
     //private StreamingContext streamingContext; //sono diversi anche se si chiamano uguali
     private JavaStreamingContext streamingContext;
-    private JavaSparkContext sparkContext;
     private Map<String, Object> kafkaParams;
 
-    // A lambda expression is an anonymous(nameless) function
-    // which don’t have any name and does not belong to any class
-    // i.e it is a block of code that can be passed around to execute.
-    // it's a variable, not a method.
-    private static PairFunction<Tuple2<String, Tuple2<Integer, Integer>>, String, Integer> getAverageByKey = (tuple) -> {
-        Tuple2<Integer, Integer> val = tuple._2;
-        int total = val._1;
-        int count = val._2;
-        Tuple2<String, Integer> averagePair = new Tuple2<String, Integer>(tuple._1, total / count);
-        return averagePair;
-    };
-
-    // it's a variable, not a method.
-    private static PairFunction<Tuple2<String, Tuple2<Integer, Integer>>, String, Tuple2> getAverageByKey2 = (tuple) -> {
-        Tuple2<Integer, Integer> val = tuple._2;
-        int total = val._1;
-        int count = val._2;
-        Tuple2<String, Tuple2> averagePair2 = new Tuple2<String, Tuple2>(tuple._1, new Tuple2(total / count, count));
-        return averagePair2;
-    };
-
-
+    ///////////////////////// constructor ///////////////////////////
     public SparkMain() {
         SparkConf conf = new SparkConf().setMaster("local[2]").setAppName("NetworkWordCount");
         sparkContext = new JavaSparkContext(conf);
@@ -76,96 +50,88 @@ public class SparkMain {
         kafkaParams.put("enable.auto.commit", false);
     }
 
-    public void read_test_bulk_json_AAAEsempio_average() throws InterruptedException {
 
-        // Collection<String> topics2 = Arrays.asList("test-string-ZONE", "test-string-AAAEsempio");
-        //Collection<String> topics2 = Arrays.asList("test-json-AAAEsempio");
-        Collection<String> topics2 = Arrays.asList("test-bulk-json-AAAEsempio");
+    ///////////////////////////////// main ////////////////////////////////////
+    //TODO preparare connettore e topic incrementing_compact since still doesn't work
+    public void spark_start() throws InterruptedException {
+        //TODO test on living db (updates\insert\delete)
 
-        JavaInputDStream<ConsumerRecord<String, String>> stream2 =
-                KafkaUtils.createDirectStream(
-                        streamingContext,
-                        LocationStrategies.PreferConsistent(),
-                        ConsumerStrategies.<String, String>Subscribe(topics2, kafkaParams)
-                );
+//        test_bulk_json_delete_AAAEsempio bulk_delete = new test_bulk_json_delete_AAAEsempio(streamingContext, kafkaParams);
+//        bulk_delete.average();
+        // a ruota
+        //bd reduced Count: (PALAZZO A      ,(448901,2965))
+        //bd reduced Count: (PALAZZO B      ,(649335,5930))
+        //bd reduced Count: (PALAZZO D      ,(454238,2965))
+        //bd reduced Count: (PALAZZO C      ,(1097050,5930))
+        //bd average pair: (PALAZZO A      ,(151,2965))
+        //bd average pair: (PALAZZO B      ,(109,5930))
+        //bd average pair: (PALAZZO D      ,(153,2965))
+        //bd average pair: (PALAZZO C      ,(185,5930))
+        //bd Key=PALAZZO A       Average=151 Total=2965
+        //bd Key=PALAZZO B       Average=109 Total=5930
+        //bd Key=PALAZZO D       Average=153 Total=2965
+        //bd Key=PALAZZO C       Average=185 Total=5930
+        //
+        //bd reduced Count: (PALAZZO A      ,(2271,15))
+        //bd reduced Count: (PALAZZO B      ,(3285,30))
+        //bd reduced Count: (PALAZZO D      ,(2298,15))
+        //bd reduced Count: (PALAZZO C      ,(5550,30))
+        //bd average pair: (PALAZZO A      ,(151,15))
+        //bd average pair: (PALAZZO B      ,(109,30))
+        //bd average pair: (PALAZZO D      ,(153,15))
+        //bd average pair: (PALAZZO C      ,(185,30))
+        //bd Key=PALAZZO A       Average=151 Total=15
+        //bd Key=PALAZZO B       Average=109 Total=30
+        //bd Key=PALAZZO D       Average=153 Total=15
+        //bd Key=PALAZZO C       Average=185 Total=30
 
-        stream2.foreachRDD(rdd -> {
+//        test_bulk_json_compact_AAAEsempio bulk_compact = new test_bulk_json_compact_AAAEsempio(streamingContext, kafkaParams);
+//        bulk_compact.average();
+        //
+        //bc reduced Count: (PALAZZO A      ,(34822,230))
+        //bc reduced Count: (PALAZZO B      ,(50370,460))
+        //bc reduced Count: (PALAZZO D      ,(35236,230))
+        //bc reduced Count: (PALAZZO C      ,(85100,460))
+        //bc average pair: (PALAZZO A      ,(151,230))
+        //bc average pair: (PALAZZO B      ,(109,460))
+        //bc average pair: (PALAZZO D      ,(153,230))
+        //bc average pair: (PALAZZO C      ,(185,460))
+        //bc Key=PALAZZO A       Average=151 Total=230
+        //bc Key=PALAZZO B       Average=109 Total=460
+        //bc Key=PALAZZO D       Average=153 Total=230
+        //bc Key=PALAZZO C       Average=185 Total=460
+        //
+        //bc reduced Count: (PALAZZO A      ,(2271,15))
+        //bc reduced Count: (PALAZZO B      ,(3285,30))
+        //bc reduced Count: (PALAZZO D      ,(2298,15))
+        //bc reduced Count: (PALAZZO C      ,(5550,30))
+        //bc average pair: (PALAZZO A      ,(151,15))
+        //bc average pair: (PALAZZO B      ,(109,30))
+        //bc average pair: (PALAZZO D      ,(153,15))
+        //bc average pair: (PALAZZO C      ,(185,30))
+        //bc Key=PALAZZO A       Average=151 Total=15
+        //bc Key=PALAZZO B       Average=109 Total=30
+        //bc Key=PALAZZO D       Average=153 Total=15
+        //bc Key=PALAZZO C       Average=185 Total=30
 
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
-            JavaRDD<AAAEsempio> json_deserialized = rdd.map(p -> {
-                //System.out.println("STAMPA tutto "+p.toString());
-                // obtained with base jdbc connector on jdbc:sqlserver with org.apache.kafka.connect.json.JsonConverter on both key and value converter
-                //ConsumerRecord(topic = test-json-AAAEsempio, partition = 0, leaderEpoch = 0, offset = 29,
-                // CreateTime = 1567599629900, serialized key size = -1, serialized value size = 412,
-                // headers = RecordHeaders(headers = [], isReadOnly = false), key = null,
-                // value = {"schema":{"type":"struct","fields":[{"type":"int64","optional":false,"field":"ID"},
-                // {"type":"int32","optional":true,"name":"org.apache.kafka.connect.data.Date","version":1,"field":"TIMESTAMP"},
-                // {"type":"int64","optional":false,"field":"VALORE"},{"type":"string","optional":false,"field":"CLASSE"}],
-                // "optional":false,"name":"AAAEsempio"},
-                // "payload":{"ID":30,"TIMESTAMP":null,"VALORE":188,"CLASSE":"PALAZZO C      "}})
-                return objectMapper
-                        .readValue(p.value()
-                                        .split(",\"payload\":")[1] //split and take the second part of the string (the data)
-                                //.substring(0, p.value().split(",\"payload\":")[1].length() - 1) //cut the last char (not necessary)
-                                , AAAEsempio.class);
-            });
+//        test_incrementing_json_delete_AAAEsempio incrementing_delete = new test_incrementing_json_delete_AAAEsempio(streamingContext, kafkaParams);
+//        incrementing_delete.average();
+        // solo una volta
+        //id reduced Count: (PALAZZO A      ,(757,5))
+        //id reduced Count: (PALAZZO B      ,(1095,10))
+        //id reduced Count: (PALAZZO D      ,(766,5))
+        //id reduced Count: (PALAZZO C      ,(1850,10))
+        //id average pair: (PALAZZO A      ,(151,5))
+        //id average pair: (PALAZZO B      ,(109,10))
+        //id average pair: (PALAZZO D      ,(153,5))
+        //id average pair: (PALAZZO C      ,(185,10))
+        //id Key=PALAZZO A       Average=151 Total=5
+        //id Key=PALAZZO B       Average=109 Total=10
+        //id Key=PALAZZO D       Average=153 Total=5
+        //id Key=PALAZZO C       Average=185 Total=10
 
-            JavaPairRDD<String, Integer> pairRDD = json_deserialized.mapToPair(p1 ->
-                    new Tuple2<String, Integer>(p1.getCLASSE(), p1.getVALORE()));
-
-            //count each values per key
-            JavaPairRDD<String, Tuple2<Integer, Integer>> valueCount = pairRDD.mapValues(value ->
-                    new Tuple2<Integer, Integer>(value, 1));
-            //valueCount.foreach(x -> System.out.println("value Count: " + x));
-
-            //add values by reduceByKey
-            JavaPairRDD<String, Tuple2<Integer, Integer>> reducedCount = valueCount.reduceByKey((tuple1, tuple2) ->
-                    new Tuple2<Integer, Integer>(tuple1._1 + tuple2._1, tuple1._2 + tuple2._2));
-            reducedCount.foreach(x -> System.out.println("reduced Count: " + x));
-
-//            //calculate average
-//            JavaPairRDD<String, Integer> averagePair = reducedCount.mapToPair(getAverageByKey);
-//            averagePair.foreach(x -> System.out.println("average pair: " + x));
-//
-//            //print averageByKey
-//            averagePair.foreach(data -> {
-//                System.out.println("Key=" + data._1() + " Average=" + data._2());
-//            });
-
-            //Mycalculate average
-            JavaPairRDD<String, Tuple2> averagePair = reducedCount.mapToPair(getAverageByKey2);
-            averagePair.foreach(x -> System.out.println("average pair: " + x));
-
-            //print averageByKey
-            averagePair.foreach(data -> {
-                System.out.println("Key=" + data._1() + " Average=" + data._2()._1() + " Total=" + data._2()._2());
-            });
-            // depending on topic and connector settings
-            // conector table loading mode bulk or incrementing (bulk always take the full data, incrementing only the new rows)
-            // topic cleanup policies delete (deleting old messages time based) compact (saves last value foreach unique key)
-            //Key=PALAZZO A       Average=151 Total=2865
-            //Key=PALAZZO B       Average=109 Total=5730
-            //Key=PALAZZO D       Average=153 Total=2865
-            //Key=PALAZZO C       Average=185 Total=5730
-
-            JavaPairRDD<String, Tuple2> x = json_deserialized.mapToPair(p1 ->
-                    new Tuple2<String, Tuple2>(p1.getCLASSE(), new Tuple2<Integer, Integer>(p1.getVALORE(), 1))
-            );
-
-            Map<String, Long> x1 = x.countByKey();
-
-            //JavaPairRDD<String, Iterable<Integer>> grouped = json_deserialized.mapToPair(p1 -> new Tuple2<String, Integer>(p1.getCLASSE(), p1.getVALORE()))
-            //        .groupByKey();
-
-            //grouped.foreach(tuple -> System.out.println("grouped " + tuple.toString() + " - KEY: " + tuple._1 + " - VALUE: " + tuple._2));
-            //grouped (PALAZZO A      ,[152, 158, 144, 151, 152])
-            //grouped (PALAZZO B      ,[112, 102, 116, 117, 101])
-            //grouped (PALAZZO C      ,[194, 185, 179, 175, 192])
-
-            System.out.println();
-
-        });
+        test_incrementing_json_compact_AAAEsempio incrementing_compact = new test_incrementing_json_compact_AAAEsempio(streamingContext, kafkaParams);
+        incrementing_compact.average();
 
         streamingContext.start();
         streamingContext.awaitTermination();
