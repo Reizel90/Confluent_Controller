@@ -33,7 +33,7 @@ public class MainClass {
     public static void main(String[] args) throws IOException, InterruptedException {
 
         SparkMain spark = new SparkMain();
-        spark.read_topics_spark();
+        spark.read_test_bulk_json_AAAEsempio_average();
         //spark.RDD_from_topic();
 
         //remote_consumer(topic);

@@ -56,4 +56,11 @@ public class AAAEsempio {
         this.CLASSE = CLASSE;
     }
 
+    public String toString(){
+        return "ID: " + ID +
+                " - TIMESTAMP: " + TIMESTAMP +
+                " - VALORE: " + VALORE +
+                " - CLASSE: " + CLASSE;
+    }
+
 }
