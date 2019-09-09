@@ -18,15 +18,15 @@ intellij- View -> Tool Windows -> Database -> select the source just created and
 
 
 (intellij)
-if you want to add javafx for a gui, you need to add into .idea -> compile.xml
-<wildcardResourcePatterns>
-          <entry name="!?*.java" />
-          <entry name="!?*.form" />
-          <entry name="!?*.class" />
-          <entry name="!?*.groovy" />
-          <entry name="!?*.scala" />
-          <entry name="!?*.flex" />
-          <entry name="!?*.kt" />
-          <entry name="!?*.clj" />
-          <entry name="!?*.fxml" />
-      </wildcardResourcePatterns>
+if you want to add javafx for a gui, you need to add into .idea -> compile.xml <br />
+\<wildcardResourcePatterns> <br />
+          \<entry name="!?*.java" /> <br />
+          \<entry name="!?*.form" /> <br />
+          \<entry name="!?*.class" /> <br />
+          \<entry name="!?*.groovy" /> <br />
+          \<entry name="!?*.scala" /> <br />
+          \<entry name="!?*.flex" /> <br />
+          \<entry name="!?*.kt" /> <br />
+          \<entry name="!?*.clj" /> <br />
+          \<entry name="!?*.fxml" /> <br />
+      \</wildcardResourcePatterns> <br />
