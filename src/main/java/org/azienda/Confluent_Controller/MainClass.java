@@ -3,10 +3,17 @@ package org.azienda.Confluent_Controller;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import db.entity.AAAEsempio;
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import kafka.RunnableConsumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
-import spark.SparkMain;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -17,26 +24,23 @@ import java.net.URL;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
-
 /**
  * Hello world!
  */
-public class MainClass {
+public class MainClass extends Application implements EventHandler<ActionEvent> {
 
     public static final String testconnection = "192.168.1.189";
-
-    public static final String connection = "192.168.1.189:9092";
+    public static final String connection = "192.168.1.189:9092"; // 9092 for confluent, 8082 for kafka api
     public static final String group = "myTestGroup";
     //"test-json-ZONE" "test-json-AAAEsempio"
     private static final String topic = "test-json-AAAEsempio";
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
-        SparkMain spark = new SparkMain();
-        spark.spark_start();
-        //spark.RDD_from_topic();
+//        SparkMain spark = new SparkMain();
+//        spark.spark_start();
 
-        //remote_consumer(topic);
+        launch(args); // javafx-call start(Stage primaryStage)
 
 //        KafkaMain kafka = new KafkaMain();
 //        kafka.runConsumer();
@@ -49,31 +53,25 @@ public class MainClass {
         System.out.println(resources_path);
         //C:\Users\DaNdE\IdeaProjects\Confluent_Controller\src\main\resources
 
-        // example connector properties config
-//        {
-//            "name": "inventory-connector",  (1)
-//            "config": {
-    //            "connector.class": "io.debezium.connector.sqlserver.SqlServerConnector", (2)
-    //            "database.hostname": "192.168.99.100", (3)
-    //            "database.port": "1433", (4)
-    //            "database.user": "sa", (5)
-    //            "database.password": "Password!", (6)
-    //            "database.dbname": "testDB", (7)
-    //            "database.server.name": "fullfillment", (8)
-    //            "table.whitelist": "dbo.customers", (9)
-    //            "database.history.kafka.bootstrap.servers": "kafka:9092", (10)
-    //            "database.history.kafka.topic": "dbhistory.fullfillment" (11)
-//          }
-//        }
-
-
-
-
         try {
             TimeUnit.MINUTES.sleep(5);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        System.out.println(getClass().toString());
+        URL x = getClass().getResource("");
+        System.out.println(x.toString());
+        //file:/C:/Users/DaNdE/IdeaProjects/Confluent_Controller/target/classes/org/azienda/Confluent_Controller/
+
+        Parent root = FXMLLoader.load(getClass().getResource("intro.fxml")); //org/azienda/Confluent_Controller/sample.fxml
+        primaryStage.setTitle("Confluent Controller");
+        primaryStage.setScene(new Scene(root));
+        primaryStage.show();
 
     }
 
@@ -155,4 +153,8 @@ public class MainClass {
         }
     }
 
+    @Override
+    public void handle(ActionEvent event) {
+
+    }
 }

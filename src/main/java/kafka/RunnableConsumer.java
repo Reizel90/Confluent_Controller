@@ -1,6 +1,4 @@
-package org.azienda.Confluent_Controller;
-
-import kafka.KafkaMain;
+package kafka;
 
 import java.util.Properties;
 

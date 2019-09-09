@@ -85,6 +85,7 @@ public class SparkMain {
         //bd Key=PALAZZO D       Average=153 Total=15
         //bd Key=PALAZZO C       Average=185 Total=30
 
+        //should be compact, so no new IDs no party
 //        test_bulk_json_compact_AAAEsempio bulk_compact = new test_bulk_json_compact_AAAEsempio(streamingContext, kafkaParams);
 //        bulk_compact.average();
         //
@@ -168,7 +169,6 @@ public class SparkMain {
         // substitute old streaming context with a new one
         streamingContext = null;
         streamingContext = new JavaStreamingContext(sparkContext, Durations.seconds(15));
-        direct_stream2();
     }
 
     public void direct_stream() throws InterruptedException {
