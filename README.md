@@ -15,3 +15,18 @@ file-> new-> module <br />
   <br /> 
 intellij- View -> Tool Windows -> Database -> select the source just created and look for current database, w8 for tables to be loaded <br /> 
                 select the table you want (right click) -> scripted Extensions -> Generate POJOs.groovy
+
+
+(intellij)
+if you want to add javafx for a gui, you need to add into .idea -> compile.xml
+<wildcardResourcePatterns>
+          <entry name="!?*.java" />
+          <entry name="!?*.form" />
+          <entry name="!?*.class" />
+          <entry name="!?*.groovy" />
+          <entry name="!?*.scala" />
+          <entry name="!?*.flex" />
+          <entry name="!?*.kt" />
+          <entry name="!?*.clj" />
+          <entry name="!?*.fxml" />
+      </wildcardResourcePatterns>
