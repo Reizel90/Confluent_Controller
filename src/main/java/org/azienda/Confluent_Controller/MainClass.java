@@ -14,6 +14,7 @@ import kafka.RunnableConsumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import spark.SparkMain;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -30,15 +31,20 @@ import java.util.concurrent.TimeUnit;
 public class MainClass extends Application implements EventHandler<ActionEvent> {
 
     public static final String testconnection = "192.168.1.189";
-    public static final String connection = "192.168.1.189:9092"; // 9092 for confluent, 8082 for kafka api
+
+    // 9092 for confluent,
+    // 8082 for kafka api (https://docs.confluent.io/current/kafka-rest/api.html),
+    // 8083 Kafka Connect REST API (https://mapr.com/docs/52/Kafka/Connect-rest-api.html).
+    public static String connection = "192.168.1.189";
     public static final String group = "myTestGroup";
     //"test-json-ZONE" "test-json-AAAEsempio"
-    private static final String topic = "test-json-AAAEsempio";
+    private static String topic = "test-json-AAAEsempio";
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
 //        SparkMain spark = new SparkMain();
 //        spark.spark_start();
+        System.out.println(SparkMain.getStreamingContext().getState().toString());
 
         launch(args); // javafx-call start(Stage primaryStage)
 
@@ -105,7 +111,7 @@ public class MainClass extends Application implements EventHandler<ActionEvent> 
     }
 
     public static void remote_consumer(String topic){
-		Properties props0 = propes(connection);
+		Properties props0 = propes(connection +":9092");
 
 		RunnableConsumer test = new RunnableConsumer(props0, topic);
 		test.run();

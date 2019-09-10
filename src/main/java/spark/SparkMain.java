@@ -21,17 +21,14 @@ import java.util.Map;
 
 public class SparkMain {
 
-
-    private JavaSparkContext sparkContext;
+    private static SparkConf conf = new SparkConf().setMaster("local[*]").setAppName("NetworkWordCount");
+    private static JavaSparkContext sparkContext = new JavaSparkContext(conf);
     //private StreamingContext streamingContext; //sono diversi anche se si chiamano uguali
-    private JavaStreamingContext streamingContext;
+    private static JavaStreamingContext streamingContext = new JavaStreamingContext(sparkContext, Durations.seconds(15));
     private Map<String, Object> kafkaParams;
 
     ///////////////////////// constructor ///////////////////////////
     public SparkMain() {
-        SparkConf conf = new SparkConf().setMaster("local[2]").setAppName("NetworkWordCount");
-        sparkContext = new JavaSparkContext(conf);
-        streamingContext = new JavaStreamingContext(sparkContext, Durations.seconds(15));
 
         // decido di stampare soltanto gli errori e non le INFO
         sparkContext.setLogLevel("ERROR");
@@ -42,7 +39,7 @@ public class SparkMain {
         // increase heartbeat.interval.ms and session.timeout.ms appropriately. For batches larger than 5 minutes,
         // this will require changing group.max.session.timeout.ms on the broker.
         //kafkaParams.put("bootstrap.servers", "localhost:9092,anotherhost:9092");
-        kafkaParams.put("bootstrap.servers", MainClass.connection);
+        kafkaParams.put("bootstrap.servers", MainClass.connection+":9092");
         kafkaParams.put("key.deserializer", StringDeserializer.class);
         kafkaParams.put("value.deserializer", StringDeserializer.class);
         kafkaParams.put("group.id", MainClass.group);
@@ -50,14 +47,19 @@ public class SparkMain {
         kafkaParams.put("enable.auto.commit", false);
     }
 
+    public static JavaStreamingContext getStreamingContext() {
+        return SparkMain.streamingContext;
+    }
+
+
 
     ///////////////////////////////// main ////////////////////////////////////
     //TODO preparare connettore e topic incrementing_compact since still doesn't work
     public void spark_start() throws InterruptedException {
         //TODO test on living db (updates\insert\delete)
 
-//        test_bulk_json_delete_AAAEsempio bulk_delete = new test_bulk_json_delete_AAAEsempio(streamingContext, kafkaParams);
-//        bulk_delete.average();
+        test_bulk_json_delete_AAAEsempio bulk_delete = new test_bulk_json_delete_AAAEsempio(streamingContext, kafkaParams);
+        bulk_delete.average();
         // a ruota
         //bd reduced Count: (PALAZZO A      ,(448901,2965))
         //bd reduced Count: (PALAZZO B      ,(649335,5930))
@@ -160,15 +162,15 @@ public class SparkMain {
 
     /////////////////////////// TEST ZONE ////////////////////////////////////
 
-    public void restart_streaming_context() throws InterruptedException {
-        System.out.println(streamingContext.getState());
+    public static void reset_streaming_context() throws InterruptedException {
+        System.out.println(SparkMain.streamingContext.getState());
         //if(streamingContext.getState().equals("ACTIVE"))
         // stop streaming without stopping context
-        streamingContext.stop(false, true);
-        streamingContext.awaitTermination();
+        SparkMain.streamingContext.stop(false, true);
+        SparkMain.streamingContext.awaitTermination();
         // substitute old streaming context with a new one
-        streamingContext = null;
-        streamingContext = new JavaStreamingContext(sparkContext, Durations.seconds(15));
+        SparkMain.streamingContext = null;
+        SparkMain.streamingContext = new JavaStreamingContext(SparkMain.sparkContext, Durations.seconds(15));
     }
 
     public void direct_stream() throws InterruptedException {

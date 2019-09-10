@@ -27,7 +27,7 @@ public class test_incrementing_json_delete_AAAEsempio {
     // which don’t have any name and does not belong to any class
     // i.e it is a block of code that can be passed around to execute.
     // it's a variable, not a method.
-    private static PairFunction<Tuple2<String, Tuple2<Integer, Integer>>, String, Integer> getAverageByKey = (tuple) -> {
+    private static PairFunction<Tuple2<String, Tuple2<Integer, Integer>>, String, Integer> getAverageByKey = (tuple) -> { // return TUple
         Tuple2<Integer, Integer> val = tuple._2;
         int total = val._1;
         int count = val._2;

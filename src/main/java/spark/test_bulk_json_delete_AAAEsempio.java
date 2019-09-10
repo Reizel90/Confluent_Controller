@@ -63,7 +63,12 @@ public class test_bulk_json_delete_AAAEsempio {
                 );
 
         stream2.foreachRDD(rdd -> {
-
+            if (rdd.isEmpty()){
+                System.out.println("niente di nuovo");
+                //nothing to do
+            }
+            else{
+                System.out.println("ci sono " + rdd.count() + " nuovi elementi" );
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
             JavaRDD<AAAEsempio> json_deserialized = rdd.map(p -> {
@@ -137,7 +142,7 @@ public class test_bulk_json_delete_AAAEsempio {
             //grouped (PALAZZO C      ,[194, 185, 179, 175, 192])
 
             System.out.println();
-
+            }
         });
 
     }
