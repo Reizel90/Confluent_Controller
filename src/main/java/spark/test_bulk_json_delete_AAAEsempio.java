@@ -68,6 +68,7 @@ public class test_bulk_json_delete_AAAEsempio {
                 //nothing to do
             }
             else{
+
                 System.out.println("ci sono " + rdd.count() + " nuovi elementi" );
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);

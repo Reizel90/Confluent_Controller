@@ -24,7 +24,7 @@ public class SparkMain {
     private static SparkConf conf = new SparkConf().setMaster("local[*]").setAppName("NetworkWordCount");
     private static JavaSparkContext sparkContext = new JavaSparkContext(conf);
     //private StreamingContext streamingContext; //sono diversi anche se si chiamano uguali
-    private static JavaStreamingContext streamingContext = new JavaStreamingContext(sparkContext, Durations.seconds(15));
+    private static JavaStreamingContext streamingContext = new JavaStreamingContext(sparkContext, Durations.seconds(30));
     private Map<String, Object> kafkaParams;
 
     ///////////////////////// constructor ///////////////////////////
@@ -170,7 +170,7 @@ public class SparkMain {
         SparkMain.streamingContext.awaitTermination();
         // substitute old streaming context with a new one
         SparkMain.streamingContext = null;
-        SparkMain.streamingContext = new JavaStreamingContext(SparkMain.sparkContext, Durations.seconds(15));
+        SparkMain.streamingContext = new JavaStreamingContext(SparkMain.sparkContext, Durations.seconds(30));
     }
 
     public void direct_stream() throws InterruptedException {

@@ -23,6 +23,7 @@ public class IntroController {
     public Button connection_button;
     public TextField connection_field;
     public TextArea output_text;
+    public TextField jdbc_path;
 
     //@Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -31,6 +32,8 @@ public class IntroController {
     }
 
     public void connect(ActionEvent actionEvent) {
+        //////// CHECK JDBC DRIVER PATH NOT EMPTY ////////////////////
+
         String conn = connection_field.getText();
 
         //String cmd = String.format("curl http://" + conn + ":8082/topics/"); //funzionante
@@ -43,7 +46,8 @@ public class IntroController {
             response = curl(cmd);
 
             HttpEntity e = response.getEntity();
-            // since once consumed can't be read again so in order to use this string twice i need to store it in a String
+            // since once consumed can't be read again
+            // so in order to use this string twice i need to store it in a String
             String response_string = null;
 
             response_string = EntityUtils.toString(e);
@@ -62,7 +66,15 @@ public class IntroController {
         } catch (Exception ex) {
             output_text.setText("l'indirizzo non è valido");
         }
-
-
     }
+
+
+//    public void jdbcconnect(ActionEvent actionEvent) {
+//////////////////////GENERATE A FILE CHOOSER TO EXPLORE FILE SYSTEM AND PICK A FILE /////////////////////////////////
+//        FileChooser fileChooser = new FileChooser();
+//        File file = fileChooser.showOpenDialog((Stage) connection_field.getScene().getWindow());
+//        jdbc_path.setText(file.getAbsolutePath());
+//        System.out.println(file.getAbsolutePath());
+//    }
+
 }

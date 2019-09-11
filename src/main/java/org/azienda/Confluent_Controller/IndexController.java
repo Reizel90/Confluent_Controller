@@ -5,11 +5,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import db.entity.AAAEsempio;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
@@ -27,6 +31,7 @@ import spark.SparkMain;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.*;
 import java.util.*;
 
 import static org.toilelibre.libe.curl.Curl.curl;
@@ -62,10 +67,10 @@ public class IndexController implements Initializable {
             for (int i = 0; i < splitted.length; i++) {
                 System.out.println(splitted[i]);
                 Button button;
-                if(i==0)
+                if (i == 0)
                     button = new Button(splitted[i].substring(1, splitted[i].length())); // need to erase first char "["
-                else if(i==splitted.length-1)
-                button = new Button(splitted[i].substring(0, splitted[i].length() - 1)); // need to erase last char "]"
+                else if (i == splitted.length - 1)
+                    button = new Button(splitted[i].substring(0, splitted[i].length() - 1)); // need to erase last char "]"
                 else button = new Button(splitted[i]);
                 button.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
@@ -96,17 +101,25 @@ public class IndexController implements Initializable {
         } catch (Exception ex) {
             ex.printStackTrace();
             System.out.println("Something went wrong");
+            Stage stage = (Stage) lvbox.getScene().getWindow();
+            Parent root = null;
+            try {
+                root = FXMLLoader.load(getClass().getResource("index.fxml"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            // Swap screen
+            stage.setScene(new Scene(root));
         }
 
     }
 
     public void averagerefresh(ActionEvent actionEvent) throws InterruptedException {
 
-        try{
-            if(!SparkMain.getStreamingContext().getState().toString().equals("INITIALIZED"))
-            SparkMain.reset_streaming_context();
-        }
-        catch(Exception e){
+        try {
+            if (!SparkMain.getStreamingContext().getState().toString().equals("INITIALIZED"))
+                SparkMain.reset_streaming_context();
+        } catch (Exception e) {
             System.out.println("ERROR: " + e.toString());
         }
 
@@ -127,117 +140,87 @@ public class IndexController implements Initializable {
         //Collection<String> topics2 = Arrays.asList("test-json-AAAEsempio");
         Collection<String> topics2 = Arrays.asList("test-bulk-json-delete-AAAEsempio");
 
-        JavaInputDStream<ConsumerRecord<String, String>> stream2 = KafkaUtils.createDirectStream(
+        JavaInputDStream<ConsumerRecord<String, String>> stream = KafkaUtils.createDirectStream(
                 SparkMain.getStreamingContext(),
                 LocationStrategies.PreferConsistent(),
                 ConsumerStrategies.<String, String>Subscribe(topics2, kafkaParams)
         );
 
-        stream2.foreachRDD(rdd -> {
+        stream.foreachRDD(rdd -> {
             if (rdd.isEmpty()) {
                 System.out.println("niente di nuovo");
                 //nothing to do
             } else {
+
+                JavaPairRDD<String, Tuple2> averagePair2 = myCalculation(rdd);
+
+                ///////////////////////////DB SAVEFATA/////////////////////////////////
+//                try {
+//                    String url = "jdbc:msql://200.210.220.1:1114/Demo";
+//                    Connection conn = DriverManager.getConnection(url,"","");
+//                    Statement st = conn.createStatement();
+//                    st.executeUpdate("INSERT INTO Customers " +
+//                            "VALUES (1001, 'Simpson', 'Mr.', 'Springfield', 2001)");
+//                    st.executeUpdate("INSERT INTO Customers " +
+//                            "VALUES (1002, 'McBeal', 'Ms.', 'Boston', 2004)");
+//                    st.executeUpdate("INSERT INTO Customers " +
+//                            "VALUES (1003, 'Flinstone', 'Mr.', 'Bedrock', 2003)");
+//                    st.executeUpdate("INSERT INTO Customers " +
+//                            "VALUES (1004, 'Cramden', 'Mr.', 'New York', 2001)");
+//
+//                    conn.close();
+//                } catch (Exception e) {
+//                    System.err.println("Got an exception! ");
+//                    System.err.println(e.getMessage());
+//                }
+
+                Connection connection = null;
+                try {
+                    // the sql server driver string
+                    //Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+
+                    // the sql server url
+                    String url = "jdbc:sqlserver://192.168.1.108:1433;DatabaseName=SAMT4";
+
+                    // get the sql server database connection
+                    connection = DriverManager.getConnection(url, "sa", "sa");
+
+                    System.out.println("mi sono connesso al database");
+                    // now do whatever you want to do with the connection
+                    // ...
+
+                    Statement statement = connection.createStatement();
+
+                    //// create example
+//                    String code = "Create ...."; /* your view creation SQL */
+//                    statement.executeUpdate(code);
+
+                    //// query example
+//                    String code2 = "SELECT Lname FROM Customers WHERE Snum = 2001"; /* your view creation SQL */
+//                    ResultSet rs = statement.executeQuery(code2);
+
+                    connection.close();
+                }
+//                catch (ClassNotFoundException e) {
+//                    e.printStackTrace();
+//                    System.exit(1);
+//                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                    System.exit(2);
+                }
+
+
                 textarea.clear();
-                System.out.println("ci sono " + rdd.count() + " nuovi elementi");
-                ObjectMapper objectMapper = new ObjectMapper();
-                objectMapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
-                JavaRDD<AAAEsempio> json_deserialized = rdd.map(p -> {
-                    //System.out.println("STAMPA tutto "+p.toString());
-                    // obtained with base jdbc connector on jdbc:sqlserver with org.apache.kafka.connect.json.JsonConverter on both key and value converter
-                    //ConsumerRecord(topic = test-json-AAAEsempio, partition = 0, leaderEpoch = 0, offset = 29,
-                    // CreateTime = 1567599629900, serialized key size = -1, serialized value size = 412,
-                    // headers = RecordHeaders(headers = [], isReadOnly = false), key = null,
-                    // value = {"schema":{"type":"struct","fields":[{"type":"int64","optional":false,"field":"ID"},
-                    // {"type":"int32","optional":true,"name":"org.apache.kafka.connect.data.Date","version":1,"field":"TIMESTAMP"},
-                    // {"type":"int64","optional":false,"field":"VALORE"},{"type":"string","optional":false,"field":"CLASSE"}],
-                    // "optional":false,"name":"AAAEsempio"},
-                    // "payload":{"ID":30,"TIMESTAMP":null,"VALORE":188,"CLASSE":"PALAZZO C      "}})
-                    return objectMapper
-                            .readValue(p.value()
-                                            .split(",\"payload\":")[1] //split and take the second part of the string (the data)
-                                    //.substring(0, p.value().split(",\"payload\":")[1].length() - 1) //cut the last char (not necessary)
-                                    , AAAEsempio.class);
-                });
-
-                JavaPairRDD<String, Integer> pairRDD = json_deserialized.mapToPair(p1 ->
-                        new Tuple2<String, Integer>(p1.getCLASSE(), p1.getVALORE()));
-
-                //count each values per key
-                JavaPairRDD<String, Tuple2<Integer, Integer>> valueCount = pairRDD.mapValues(value ->
-                        new Tuple2<Integer, Integer>(value, 1));
-                //valueCount.foreach(x -> System.out.println("value Count: " + x));
-
-                //add values by reduceByKey
-                JavaPairRDD<String, Tuple2<Integer, Integer>> reducedCount = valueCount.reduceByKey((tuple1, tuple2) ->
-                        new Tuple2<Integer, Integer>(tuple1._1 + tuple2._1, tuple1._2 + tuple2._2));
-                reducedCount.foreach(x -> System.out.println("bd reduced Count: " + x));
-
-                //Mycalculate average
-                JavaPairRDD<String, Tuple2> averagePair2 = reducedCount.mapToPair(getAverageByKey2);
-                JavaPairRDD<String,String> averagePair3 = averagePair2.mapToPair(tuple -> {
-                    return new Tuple2<String, String>("bd Key=" + tuple._1, " Average=" + tuple._2._1 + " Total=" + tuple._2._2);
-                });
-                //averagePair3.saveAsTextFile("bd_results.txt");
-                averagePair2.foreach(x -> System.out.println("bd average pair: " + x));
-
                 //print averageByKey
                 averagePair2.collect().forEach(data -> {
-                    textarea.appendText("bd Key=" + data._1() + " Average=" + data._2()._1() + " Total=" + data._2()._2()+"\n");
-                    System.out.println("bd Key=" + data._1() + " Average=" + data._2()._1() + " Total=" + data._2()._2());
+                    textarea.appendText("bd Key=" + data._1() + " Average=" + data._2()._1() + " Total=" + data._2()._2() + "\n");
+                    // System.out.println("bd Key=" + data._1() + " Average=" + data._2()._1() + " Total=" + data._2()._2());
                 });
 
-                JavaPairRDD<String, Tuple2> x = json_deserialized.mapToPair(p1 ->
-                        new Tuple2<String, Tuple2>(p1.getCLASSE(), new Tuple2<Integer, Integer>(p1.getVALORE(), 1))
-                );
-
-                Map<String, Long> x1 = x.countByKey();
-
-                System.out.println("Count by key: " + x1.toString());
             }
         });
 
-        // need a cyclic runnable
-//        Runnable reader = new Runnable() {
-//            @Override
-//            public void run() {
-//                // The name of the file to open.
-//                String fileName = "bd_results.txt";
-//
-//                // This will reference one line at a time
-//                String line = null;
-//
-//                try {
-//                    // FileReader reads text files in the default encoding.
-//                    FileReader fileReader =
-//                            new FileReader(fileName);
-//
-//                    // Always wrap FileReader in BufferedReader.
-//                    BufferedReader bufferedReader =
-//                            new BufferedReader(fileReader);
-//
-//                    while((line = bufferedReader.readLine()) != null) {
-//                        textarea.appendText(line + "\n");
-//                        System.out.println(line);
-//                    }
-//
-//                    // Always close files.
-//                    bufferedReader.close();
-//                }
-//                catch(FileNotFoundException ex) {
-//                    System.out.println(
-//                            "Unable to open file '" +
-//                                    fileName + "'");
-//                }
-//                catch(IOException ex) {
-//                    System.out.println(
-//                            "Error reading file '"
-//                                    + fileName + "'");
-//                    // Or we could just do this:
-//                    // ex.printStackTrace();
-//                }
-//            }
-//        };
         SparkMain.getStreamingContext().start();
     }
 
@@ -248,4 +231,47 @@ public class IndexController implements Initializable {
         Tuple2<String, Tuple2> averagePair2 = new Tuple2<String, Tuple2>(tuple._1, new Tuple2(total2 / count2, count2));
         return averagePair2;
     };
+
+
+    private JavaPairRDD<String, Tuple2> myCalculation(JavaRDD<ConsumerRecord<String, String>> rdd) {
+
+        System.out.println("ci sono " + rdd.count() + " nuovi elementi");
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
+        JavaRDD<AAAEsempio> json_deserialized = rdd.map(p -> {
+            //System.out.println("STAMPA tutto "+p.toString());
+            // obtained with base jdbc connector on jdbc:sqlserver with org.apache.kafka.connect.json.JsonConverter on both key and value converter
+            //ConsumerRecord(topic = test-json-AAAEsempio, partition = 0, leaderEpoch = 0, offset = 29,
+            // CreateTime = 1567599629900, serialized key size = -1, serialized value size = 412,
+            // headers = RecordHeaders(headers = [], isReadOnly = false), key = null,
+            // value = {"schema":{"type":"struct","fields":[{"type":"int64","optional":false,"field":"ID"},
+            // {"type":"int32","optional":true,"name":"org.apache.kafka.connect.data.Date","version":1,"field":"TIMESTAMP"},
+            // {"type":"int64","optional":false,"field":"VALORE"},{"type":"string","optional":false,"field":"CLASSE"}],
+            // "optional":false,"name":"AAAEsempio"},
+            // "payload":{"ID":30,"TIMESTAMP":null,"VALORE":188,"CLASSE":"PALAZZO C      "}})
+            return objectMapper
+                    .readValue(p.value()
+                                    .split(",\"payload\":")[1] //split and take the second part of the string (the data)
+                            //.substring(0, p.value().split(",\"payload\":")[1].length() - 1) //cut the last char (not necessary)
+                            , AAAEsempio.class);
+        });
+
+        JavaPairRDD<String, Integer> pairRDD = json_deserialized.mapToPair(p1 ->
+                new Tuple2<String, Integer>(p1.getCLASSE(), p1.getVALORE()));
+
+        //count each values per key
+        JavaPairRDD<String, Tuple2<Integer, Integer>> valueCount = pairRDD.mapValues(value ->
+                new Tuple2<Integer, Integer>(value, 1));
+        //valueCount.foreach(x -> System.out.println("value Count: " + x));
+
+        //add values by reduceByKey
+        JavaPairRDD<String, Tuple2<Integer, Integer>> reducedCount = valueCount.reduceByKey((tuple1, tuple2) ->
+                new Tuple2<Integer, Integer>(tuple1._1 + tuple2._1, tuple1._2 + tuple2._2));
+        reducedCount.foreach(x -> System.out.println("bd reduced Count: " + x));
+
+        //Mycalculate average
+        JavaPairRDD<String, Tuple2> averagePair2 = reducedCount.mapToPair(getAverageByKey2);
+
+        return averagePair2;
+    }
 }

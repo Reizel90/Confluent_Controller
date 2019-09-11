@@ -35,8 +35,8 @@ public class MainClass extends Application implements EventHandler<ActionEvent> 
     // 9092 for confluent,
     // 8082 for kafka api (https://docs.confluent.io/current/kafka-rest/api.html),
     // 8083 Kafka Connect REST API (https://mapr.com/docs/52/Kafka/Connect-rest-api.html).
-    public static String connection = "192.168.1.189";
-    public static final String group = "myTestGroup";
+    public static String connection = "192.168.1.189"; //"host:9092,anotherhost:9092"
+    public static final String group = "myTestGroup"; //better use a groupname foreach stream
     //"test-json-ZONE" "test-json-AAAEsempio"
     private static String topic = "test-json-AAAEsempio";
 
