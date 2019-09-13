@@ -14,6 +14,11 @@ import kafka.RunnableConsumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.apache.spark.SparkConf;
+import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.streaming.Durations;
+import org.apache.spark.streaming.api.java.JavaStreamingContext;
+
 import spark.SparkMain;
 
 import java.io.BufferedReader;
@@ -41,27 +46,51 @@ public class MainClass extends Application implements EventHandler<ActionEvent> 
     private static String topic = "test-json-AAAEsempio";
 
     public static void main(String[] args) throws IOException, InterruptedException {
+    	System.out.println("inizio");
+    	try {
+    		// **************************** IDE ********************************************
+    		// *************** pass an argument in run_configuration *****************************
+    		if(args.length != 0){
+    		    System.out.println("lanciato da IDE");
 
-//        SparkMain spark = new SparkMain();
-//        spark.spark_start();
-        System.out.println(SparkMain.getStreamingContext().getState().toString());
+    			String resource_path = "src/main/resources/";
+
+    			SparkMain.conf = new SparkConf()
+    					.setMaster("local[*]")
+    					.setAppName("Calculator");
+
+    			SparkMain.sparkContext = new JavaSparkContext(SparkMain.conf);
+    			SparkMain.streamingContext = new JavaStreamingContext(SparkMain.sparkContext, Durations.seconds(30));
+
+    			// ******************************************************************************************************
+    		}
+    		else{
+    		    System.out.println("commandline with jar");
+    			// *************************** launching a jar without arguments **********************************************
+
+    			// Spark
+    			SparkMain.conf = new SparkConf();
+    			SparkMain.sparkContext = new JavaSparkContext(SparkMain.conf);
+    			SparkMain.streamingContext = new JavaStreamingContext(SparkMain.sparkContext, Durations.seconds(30));
+
+    			// ******************************************************************************************************
+    		}
+
+            // System.out only ERROR level INFO
+            //SparkMain.sparkContext.setLogLevel("ERROR");
 
         launch(args); // javafx-call start(Stage primaryStage)
 
-//        KafkaMain kafka = new KafkaMain();
-//        kafka.runConsumer();
 
-        //jsonExample();
-
-
-        String base_path = System.getProperty("user.dir");
-        String resources_path = base_path  + "\\src\\main\\resources";
-        System.out.println(resources_path);
+//        String base_path = System.getProperty("user.dir");
+//        String resources_path = base_path  + "\\src\\main\\resources";
+//        System.out.println(resources_path);
         //C:\Users\DaNdE\IdeaProjects\Confluent_Controller\src\main\resources
 
-        try {
+        
             TimeUnit.MINUTES.sleep(5);
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
+        	System.out.println("inizializing error");
             e.printStackTrace();
         }
 

@@ -21,17 +21,22 @@ import java.util.Map;
 
 public class SparkMain {
 
-    private static SparkConf conf = new SparkConf().setMaster("local[*]").setAppName("NetworkWordCount");
-    private static JavaSparkContext sparkContext = new JavaSparkContext(conf);
+//    private static SparkConf conf = new SparkConf().setMaster("local[*]").setAppName("Appname");
+//    private static JavaSparkContext sparkContext = new JavaSparkContext(conf);
+//    //private StreamingContext streamingContext; // spark context AND java spark context are similar but not the same
+//    private static JavaStreamingContext streamingContext = new JavaStreamingContext(sparkContext, Durations.seconds(30));
+
+    public static SparkConf conf;
+    public static JavaSparkContext sparkContext;
     //private StreamingContext streamingContext; //sono diversi anche se si chiamano uguali
-    private static JavaStreamingContext streamingContext = new JavaStreamingContext(sparkContext, Durations.seconds(30));
-    private Map<String, Object> kafkaParams;
+    public static JavaStreamingContext streamingContext;
+    public Map<String, Object> kafkaParams;
 
     ///////////////////////// constructor ///////////////////////////
     public SparkMain() {
 
-        // decido di stampare soltanto gli errori e non le INFO
-        sparkContext.setLogLevel("ERROR");
+        // System.out only ERROR level information and not the whole log
+        //SparkMain.sparkContext.setLogLevel("ERROR");
 
         kafkaParams = new HashMap<>();
         //http://kafka.apache.org/documentation.html#newconsumerconfigs

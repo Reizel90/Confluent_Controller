@@ -188,6 +188,7 @@ public class IndexController implements Initializable {
                     System.out.println("mi sono connesso al database");
                     // now do whatever you want to do with the connection
                     // ...
+                    //TODO insert data into db
 
                     Statement statement = connection.createStatement();
 

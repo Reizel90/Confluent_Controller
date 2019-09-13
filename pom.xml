@@ -119,6 +119,18 @@
 
 
 
+		<dependency>
+		    <groupId>org.openjfx</groupId>
+		    <artifactId>javafx-controls</artifactId>
+		    <version>12.0.2</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.openjfx/javafx-fxml -->
+		<dependency>
+		    <groupId>org.openjfx</groupId>
+		    <artifactId>javafx-fxml</artifactId>
+		    <version>13</version>
+		</dependency>
 
 
         <!-- https://mvnrepository.com/artifact/log4j/log4j -->
@@ -135,5 +147,127 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    
+    <build>
+	    <plugins>
+            <!--
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>MainClass</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+            </plugin>
+            -->
+
+		    <plugin>
+			    <groupId>org.openjfx</groupId>
+			    <artifactId>javafx-maven-plugin</artifactId>
+			    <version>0.0.3</version>
+			    <configuration>
+			    <source>source>12</source>
+			        <target>12</target>
+			        <release>12</release>
+			        <mainClass>hellofx/org.openjfx.App</mainClass>
+			        <compilerArgs>
+			            <arg>--add-exports</arg>
+			            <arg>javafx.graphics/com.sun.glass.ui=org.openjfx.hellofx</arg>
+			        </compilerArgs>
+			    </configuration>
+			</plugin>
+	
+			<plugin>
+		      <!-- Build an executable JAR -->
+		      <groupId>org.apache.maven.plugins</groupId>
+		      <artifactId>maven-jar-plugin</artifactId>
+		      <version>3.1.0</version>
+		      <configuration>
+		        <archive>
+		          <manifest>
+		            <addClasspath>true</addClasspath>
+		            <classpathPrefix>lib/</classpathPrefix>
+		            <mainClass>org.azienda.Confluent_Controller.MainClass</mainClass>
+		          </manifest>
+		        </archive>
+		      </configuration>
+		    </plugin>
+
+
+
+
+
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+
+            <!-- /////////////////////////////////////////// -->
+        <plugin>
+            <artifactId>maven-resources-plugin</artifactId>
+            <version>2.6</version>
+            <executions>
+                <execution>
+                    <id>copy-resources</id>
+                    <phase>validate</phase>
+                    <goals>
+                        <goal>copy-resources</goal>
+                    </goals>
+                    <configuration>
+                        <outputDirectory>${basedir}/target</outputDirectory>
+                        <resources>
+                            <resource>
+                                <directory>resources</directory>
+                                <filtering>true</filtering>
+                            </resource>
+                        </resources>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+                <execution>
+                    <id>copy-dependencies</id>
+                    <phase>prepare-package</phase>
+                    <goals>
+                        <goal>copy-dependencies</goal>
+                    </goals>
+                    <configuration>
+                        <outputDirectory>${project.build.directory}/Conflent_Controller/lib</outputDirectory>
+                        <overWriteReleases>false</overWriteReleases>
+                        <overWriteSnapshots>false</overWriteSnapshots>
+                        <overWriteIfNewer>true</overWriteIfNewer>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+
+
+
+
+
+
+    </plugins>
+	
+	</build>
+	    
+    
+    
+    
 	
 </project>
