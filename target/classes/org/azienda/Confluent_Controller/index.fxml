@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.azienda.Confluent_Controller.IndexController">
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+                  <MenuItem mnemonicParsing="false" text="save" />
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Report">
+            <items>
+              <MenuItem fx:id="average" mnemonicParsing="false" onAction="#averagerefresh" text="Average" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <center>
+      <TextArea fx:id="textarea" BorderPane.alignment="CENTER" />
+   </center>
+   <left>
+      <ScrollPane fitToWidth="true" maxWidth="600.0" minWidth="100.0" pannable="true" prefViewportHeight="368.0" prefViewportWidth="200.0">
+         <content>
+            <VBox fx:id="lvbox" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="600.0" minWidth="100.0" BorderPane.alignment="CENTER" />
+         </content>
+      </ScrollPane>
+   </left>
+</BorderPane>
