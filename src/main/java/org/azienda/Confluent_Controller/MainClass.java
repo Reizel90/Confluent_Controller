@@ -90,7 +90,7 @@ public class MainClass extends Application implements EventHandler<ActionEvent> 
         
             TimeUnit.MINUTES.sleep(5);
         } catch (Exception e) {
-        	System.out.println("inizializing error");
+        	System.out.println("inizializing error \n");
             e.printStackTrace();
         }
 

@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.azienda.Confluent_Controller.JdbcConnectorCreatorController">
+    <top>
+        <MenuBar BorderPane.alignment="CENTER">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="save" />
+                        <MenuItem mnemonicParsing="false" text="Close" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Report">
+                    <items>
+                        <MenuItem fx:id="average" mnemonicParsing="false" onAction="#averagerefresh" text="Average" />
+                    </items>
+                   <items>
+                      <MenuItem fx:id="create_connector" mnemonicParsing="false" onAction="#createConnector" text="Create connector" />
+                   </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="About" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+
+   <center>
+      <ScrollPane BorderPane.alignment="CENTER">
+         <content>
+            <VBox prefHeight="373.0" prefWidth="581.0">
+               <children>
+                  <HBox>
+                     <children>
+                        <Label text="connector name:">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="connector_name" promptText="incrementing-delete-AAAMisura" text="incrementing-delete-AAAMisura" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="10.0">
+                     <children>
+                        <Label text="configurations:">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="10.0">
+                     <children>
+                        <Label text="connector.class: ">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="connector_class" promptText="io.confluent.connect.jdbc.JdbcSourceConnector" text="io.confluent.connect.jdbc.JdbcSourceConnector" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="72.0">
+                     <children>
+                        <Label text="value.converter: ">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="value_converter" promptText="org.apache.kafka.connect.json.JsonConverter" text="org.apache.kafka.connect.json.JsonConverter" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="93.0">
+                     <children>
+                        <Label text="transforms ValueToKey: ">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="124.0">
+                     <children>
+                        <Label text="type: ">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="transforms_ValueToKey_type" promptText="org.apache.kafka.connect.transforms.ValueToKey" text="org.apache.kafka.connect.transforms.ValueToKey" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="155.0">
+                     <children>
+                        <Label text="fields: ">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="transforms_ValueToKey_fields" promptText="ID" text="ID">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="41.0">
+                     <children>
+                        <Label text="conneciton:">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="186.0">
+                     <children>
+                        <Label text="url: ">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="connection_url" promptText="jdbc:sqlserver://192.168.1.107:1433;databaseName=SAMT4;" text="jdbc:sqlserver://192.168.1.107:1433;databaseName=SAMT4;" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="217.0">
+                     <children>
+                        <Label text="user: ">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="connection_user" promptText="sa" text="sa">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="259.0">
+                     <children>
+                        <Label text="password: ">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="connection_password" promptText="sa" text="sa">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="290.0">
+                     <children>
+                        <Label text="table.whitelist: ">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="table_whitelist" promptText="AAAMisura" text="AAAMisura">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="321.0">
+                     <children>
+                        <Label text="mode: ">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="mode" promptText="incrementing" text="incrementing">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="352.0">
+                     <children>
+                        <Label text="incrementing.column.name:  ">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="incrementing_column_name" promptText="ID" text="ID">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="383.0">
+                     <children>
+                        <Label text="topic.prefix: ">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="topic_prefix" promptText="incrementing-delete-" text="incrementing-delete-">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="414.0">
+                     <children>
+                        <Button fx:id="submit" alignment="CENTER" mnemonicParsing="false" onAction="#addit" text="submit" textAlignment="CENTER" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </center>
+</BorderPane>

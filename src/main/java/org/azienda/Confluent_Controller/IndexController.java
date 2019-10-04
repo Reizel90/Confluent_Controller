@@ -41,6 +41,7 @@ public class IndexController implements Initializable {
     public TextArea textarea;
     public VBox lvbox;
     public MenuItem average;
+    public MenuItem create_connector;
 
     //@Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -67,8 +68,12 @@ public class IndexController implements Initializable {
             for (int i = 0; i < splitted.length; i++) {
                 System.out.println(splitted[i]);
                 Button button;
-                if (i == 0)
+                if (i == 0) {
+                    if (splitted[i].endsWith("]")) {//copre il caso in cui ho un unico elemento e quindi inizierebbe e finirebbe con una quadra
+                        splitted[i] = splitted[i].substring(0, splitted[i].length() - 1);
+                    }
                     button = new Button(splitted[i].substring(1, splitted[i].length())); // need to erase first char "["
+                }
                 else if (i == splitted.length - 1)
                     button = new Button(splitted[i].substring(0, splitted[i].length() - 1)); // need to erase last char "]"
                 else button = new Button(splitted[i]);
@@ -88,6 +93,8 @@ public class IndexController implements Initializable {
 
 
                             response_string = EntityUtils.toString(e);
+                            response_string = response_string.replaceAll(",",",\n");
+
                             textarea.setText(response_string);
                             System.out.println(response_string);
                         } catch (IOException ex) {
@@ -115,6 +122,23 @@ public class IndexController implements Initializable {
     }
 
     public void averagerefresh(ActionEvent actionEvent) throws InterruptedException {
+
+        ///////////////////////////DB GET DATA/////////////////////////////////
+                try {
+                    String url = "jdbc:sqlserver://192.168.1.108:1433;databaseName=SAMT4;";
+                    Connection conn = DriverManager.getConnection(url,"sa","sa");
+                    Statement st = conn.createStatement();
+                    ResultSet sel = st.executeQuery("SELECT * FROM IVA");
+
+                    System.out.println(sel.first() + " è il primo elemento della selezione");
+                    System.out.println(sel.getRow() + " è boh sel.getRow()");
+
+                    conn.close();
+                } catch (Exception e) {
+                    System.err.println("Got an exception! ");
+                    System.err.println(e.getMessage());
+                }
+
 
         try {
             if (!SparkMain.getStreamingContext().getState().toString().equals("INITIALIZED"))
@@ -154,7 +178,8 @@ public class IndexController implements Initializable {
 
                 JavaPairRDD<String, Tuple2> averagePair2 = myCalculation(rdd);
 
-                ///////////////////////////DB SAVEFATA/////////////////////////////////
+
+                ///////////////////////////DB SAVE DATA/////////////////////////////////
 //                try {
 //                    String url = "jdbc:msql://200.210.220.1:1114/Demo";
 //                    Connection conn = DriverManager.getConnection(url,"","");
@@ -274,5 +299,17 @@ public class IndexController implements Initializable {
         JavaPairRDD<String, Tuple2> averagePair2 = reducedCount.mapToPair(getAverageByKey2);
 
         return averagePair2;
+    }
+
+    public void createConnector(ActionEvent actionEvent){
+        try {
+            //in order to retrieve the stage for changing scene
+            Stage stage = (Stage) lvbox.getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass().getResource("jdbc_connector_creator.fxml"));
+            // Swap screen
+            stage.setScene(new Scene(root));
+        }catch(Exception e){
+            System.out.println(e);
+        }
     }
 }

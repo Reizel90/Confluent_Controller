@@ -13,7 +13,8 @@ public class AddConnector {
     }
 
     public HttpResponse AddConnector(String config) {
-        String cmd = String.format("curl -X POST -H \"Accept:application/json\" -H \"Content-Type:application/json\" http://%s/connectors/ -d '%s'", this.url, config);
+        String cmd = String.format("curl -X POST -H \"Accept:application/json\" "+
+                    "-H \"Content-Type:application/json\" http://%s/connectors/ -d '%s'", this.url, config);
         HttpResponse response;
         System.out.println(cmd);
         response = curl(cmd);
