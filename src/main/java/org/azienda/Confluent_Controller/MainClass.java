@@ -14,12 +14,6 @@ import kafka.RunnableConsumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
-import org.apache.spark.SparkConf;
-import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.streaming.Durations;
-import org.apache.spark.streaming.api.java.JavaStreamingContext;
-
-import spark.SparkMain;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -50,31 +44,31 @@ public class MainClass extends Application implements EventHandler<ActionEvent> 
     	try {
     		// **************************** IDE ********************************************
     		// *************** pass an argument in run_configuration *****************************
-    		if(args.length != 0){
-    		    System.out.println("lanciato da IDE");
-
-    			String resource_path = "src/main/resources/";
-
-    			SparkMain.conf = new SparkConf()
-    					.setMaster("local[*]")
-    					.setAppName("Calculator");
-
-    			SparkMain.sparkContext = new JavaSparkContext(SparkMain.conf);
-    			SparkMain.streamingContext = new JavaStreamingContext(SparkMain.sparkContext, Durations.seconds(30));
-
-    			// ******************************************************************************************************
-    		}
-    		else{
-    		    System.out.println("commandline with jar");
-    			// *************************** launching a jar without arguments **********************************************
-
-    			// Spark
-    			SparkMain.conf = new SparkConf();
-    			SparkMain.sparkContext = new JavaSparkContext(SparkMain.conf);
-    			SparkMain.streamingContext = new JavaStreamingContext(SparkMain.sparkContext, Durations.seconds(30));
-
-    			// ******************************************************************************************************
-    		}
+//    		if(args.length != 0){
+//    		    System.out.println("lanciato da IDE");
+//
+//    			String resource_path = "src/main/resources/";
+//
+//    			SparkMain.conf = new SparkConf()
+//    					.setMaster("local[*]")
+//    					.setAppName("Calculator");
+//
+//    			SparkMain.sparkContext = new JavaSparkContext(SparkMain.conf);
+//    			SparkMain.streamingContext = new JavaStreamingContext(SparkMain.sparkContext, Durations.seconds(30));
+//
+//    			// ******************************************************************************************************
+//    		}
+//    		else{
+//    		    System.out.println("commandline with jar");
+//    			// *************************** launching a jar without arguments **********************************************
+//
+//    			// Spark
+//    			SparkMain.conf = new SparkConf();
+//    			SparkMain.sparkContext = new JavaSparkContext(SparkMain.conf);
+//    			SparkMain.streamingContext = new JavaStreamingContext(SparkMain.sparkContext, Durations.seconds(30));
+//
+//    			// ******************************************************************************************************
+//    		}
 
             // System.out only ERROR level INFO
             //SparkMain.sparkContext.setLogLevel("ERROR");
@@ -94,6 +88,7 @@ public class MainClass extends Application implements EventHandler<ActionEvent> 
             e.printStackTrace();
         }
 
+
     }
 
     @Override
@@ -103,7 +98,7 @@ public class MainClass extends Application implements EventHandler<ActionEvent> 
         System.out.println(x.toString());
         //file:/C:/Users/DaNdE/IdeaProjects/Confluent_Controller/target/classes/org/azienda/Confluent_Controller/
 
-        Parent root = FXMLLoader.load(getClass().getResource("intro.fxml")); //org/azienda/Confluent_Controller/sample.fxml
+        Parent root = FXMLLoader.load(getClass().getResource("index.fxml")); //org/azienda/Confluent_Controller/sample.fxml
         primaryStage.setTitle("Confluent Controller");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();

@@ -7,20 +7,18 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.azienda.Confluent_Controller.JdbcConnectorCreatorController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="573.0" prefWidth="802.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.azienda.Confluent_Controller.JdbcConnectorCreatorController">
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
+                        <MenuItem fx:id="menu_conn" onAction="#Connector_home" mnemonicParsing="false" text="connectors" />
                         <MenuItem mnemonicParsing="false" text="save" />
                         <MenuItem mnemonicParsing="false" text="Close" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Report">
-                    <items>
-                        <MenuItem fx:id="average" mnemonicParsing="false" onAction="#averagerefresh" text="Average" />
-                    </items>
                    <items>
                       <MenuItem fx:id="create_connector" mnemonicParsing="false" onAction="#createConnector" text="Create connector" />
                    </items>
@@ -74,6 +72,12 @@
                               <Insets left="10.0" />
                            </HBox.margin>
                         </TextField>
+                        <MenuButton fx:id="connector_class_list" mnemonicParsing="false" text="MenuButton">
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Action 1" />
+                            <MenuItem mnemonicParsing="false" text="Action 2" />
+                          </items>
+                        </MenuButton>
                      </children>
                   </HBox>
                   <HBox layoutX="10.0" layoutY="72.0">
@@ -244,4 +248,16 @@
          </content>
       </ScrollPane>
    </center>
+   <bottom>
+      <ScrollPane prefViewportHeight="200.0" prefViewportWidth="600.0">
+         <content>
+            <VBox>
+               <children>
+                  <TextArea fx:id="txtarea" prefHeight="200.0" BorderPane.alignment="CENTER" />
+                  <Button fx:id="text_submit_btn" mnemonicParsing="false" onAction="#textaddit" text="Submit text" />
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </bottom>
 </BorderPane>

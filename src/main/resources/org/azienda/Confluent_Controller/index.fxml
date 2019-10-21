@@ -1,43 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.azienda.Confluent_Controller.IndexController">
-   <top>
-      <MenuBar BorderPane.alignment="CENTER">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-                  <MenuItem mnemonicParsing="false" text="save" />
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Report">
-            <items>
-              <MenuItem fx:id="average" mnemonicParsing="false" onAction="#averagerefresh" text="Average" />
-            </items>
-              <items>
-                  <MenuItem fx:id="create_connector" mnemonicParsing="false" onAction="#createConnector" text="Create connector" />
-              </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-   </top>
+   <bottom>
+      <TextArea fx:id="output_text" editable="false" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </bottom>
    <center>
-      <TextArea fx:id="textarea" BorderPane.alignment="CENTER" />
+      <!-- <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+                  <Label text="indicare il driver jdbc: " />
+                  <TextField fx:id="jdbc_path" promptText="C://path/to/driver.jar" />
+                  <Button fx:id="jdbc_button" mnemonicParsing="false" onAction="#jdbcconnect" text="find" />
+               </children>
+            </HBox> -->
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="indicare il cluster kafka: " />
+            <TextField fx:id="connection_field" promptText="192.168.1.189" />
+            <Button fx:id="connection_button" mnemonicParsing="false" onAction="#connect" text="connect" />
+         </children>
+      </HBox>
    </center>
-   <left>
-      <ScrollPane fitToWidth="true" maxWidth="600.0" minWidth="100.0" pannable="true" prefViewportHeight="368.0" prefViewportWidth="200.0">
-         <content>
-            <VBox fx:id="lvbox" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="600.0" minWidth="100.0" BorderPane.alignment="CENTER" />
-         </content>
-      </ScrollPane>
-   </left>
 </BorderPane>
