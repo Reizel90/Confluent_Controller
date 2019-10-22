@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane prefHeight="257.0" prefWidth="317.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.azienda.Confluent_Controller.SelectorController">
+<AnchorPane prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.azienda.Confluent_Controller.SelectorController">
    <children>
-      <GridPane gridLinesVisible="true" layoutX="0.5" layoutY="0.5" prefHeight="257.0" prefWidth="317.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-         </rowConstraints>
+      <VBox>
          <children>
-            <Button fx:id="topic_btn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#topic_rend" styleClass="btn" text="TOPICS" textAlignment="CENTER" />
-            <Button fx:id="connectors_btn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#connectors_rend" styleClass="btn" text="CONNECTORS" textAlignment="CENTER" GridPane.rowIndex="1" />
+            <Button fx:id="topic_btn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#topic_rend" prefHeight="100.0" prefWidth="300.0" styleClass="btn" text="TOPICS" textAlignment="CENTER" />
+            <Button fx:id="connectors_btn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#connectors_rend" prefHeight="100.0" prefWidth="300.0" styleClass="btn" text="CONNECTORS" textAlignment="CENTER" VBox.vgrow="ALWAYS">
+               <font>
+                  <Font name="Arial" size="15.0" />
+               </font></Button>
+            <Button fx:id="connectors_btn1" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="109.0" mnemonicParsing="false" onAction="#connectors_rend" prefHeight="100.0" prefWidth="300.0" styleClass="btn" text="KSQL" textAlignment="CENTER">
+               <font>
+                  <Font name="Arial" size="15.0" />
+               </font>
+            </Button>
          </children>
-      </GridPane>
+      </VBox>
    </children>
 </AnchorPane>

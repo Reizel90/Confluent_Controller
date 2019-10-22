@@ -7,13 +7,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="573.0" prefWidth="802.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.azienda.Confluent_Controller.JdbcConnectorCreatorController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="573.0" prefWidth="802.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.azienda.Confluent_Controller.Connector.ConnectorCreatorController">
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
-                        <MenuItem fx:id="menu_conn" onAction="#Connector_home" mnemonicParsing="false" text="connectors" />
+                        <MenuItem fx:id="menu_conn" mnemonicParsing="false" onAction="#Connector_home" text="connectors" />
                         <MenuItem mnemonicParsing="false" text="save" />
                         <MenuItem mnemonicParsing="false" text="Close" />
                     </items>
@@ -33,7 +33,7 @@
     </top>
 
    <center>
-      <ScrollPane BorderPane.alignment="CENTER">
+      <ScrollPane fitToHeight="true" fitToWidth="true" BorderPane.alignment="CENTER">
          <content>
             <VBox prefHeight="373.0" prefWidth="581.0">
                <children>
@@ -124,7 +124,7 @@
                               <Insets left="20.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField fx:id="transforms_ValueToKey_fields" promptText="ID" text="ID">
+                        <TextField fx:id="transforms_ValueToKey_fields" promptText="ID" text="ID" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="10.0" />
                            </HBox.margin>
@@ -161,7 +161,7 @@
                               <Insets left="20.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField fx:id="connection_user" promptText="sa" text="sa">
+                        <TextField fx:id="connection_user" promptText="sa" text="sa" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="10.0" />
                            </HBox.margin>
@@ -175,7 +175,7 @@
                               <Insets left="20.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField fx:id="connection_password" promptText="sa" text="sa">
+                        <TextField fx:id="connection_password" promptText="sa" text="sa" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="10.0" />
                            </HBox.margin>
@@ -189,7 +189,7 @@
                               <Insets left="20.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField fx:id="table_whitelist" promptText="AAAMisura" text="AAAMisura">
+                        <TextField fx:id="table_whitelist" promptText="AAAMisura" text="AAAMisura" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="10.0" />
                            </HBox.margin>
@@ -203,7 +203,7 @@
                               <Insets left="20.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField fx:id="mode" promptText="incrementing" text="incrementing">
+                        <TextField fx:id="mode" promptText="incrementing" text="incrementing" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="10.0" />
                            </HBox.margin>
@@ -217,7 +217,7 @@
                               <Insets left="20.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField fx:id="incrementing_column_name" promptText="ID" text="ID">
+                        <TextField fx:id="incrementing_column_name" promptText="ID" text="ID" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="10.0" />
                            </HBox.margin>
@@ -231,7 +231,7 @@
                               <Insets left="20.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField fx:id="topic_prefix" promptText="incrementing-delete-" text="incrementing-delete-">
+                        <TextField fx:id="topic_prefix" promptText="incrementing-delete-" text="incrementing-delete-" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="10.0" />
                            </HBox.margin>
@@ -240,7 +240,7 @@
                   </HBox>
                   <HBox layoutX="10.0" layoutY="414.0">
                      <children>
-                        <Button fx:id="submit" alignment="CENTER" mnemonicParsing="false" onAction="#addit" text="submit" textAlignment="CENTER" />
+                        <Button fx:id="submit" alignment="CENTER" mnemonicParsing="false" onAction="#addit" text="create from form" textAlignment="CENTER" />
                      </children>
                   </HBox>
                </children>
@@ -249,12 +249,12 @@
       </ScrollPane>
    </center>
    <bottom>
-      <ScrollPane prefViewportHeight="200.0" prefViewportWidth="600.0">
+      <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="269.0" prefViewportHeight="200.0" prefViewportWidth="600.0" prefWidth="876.0">
          <content>
             <VBox>
                <children>
-                  <TextArea fx:id="txtarea" prefHeight="200.0" BorderPane.alignment="CENTER" />
-                  <Button fx:id="text_submit_btn" mnemonicParsing="false" onAction="#textaddit" text="Submit text" />
+                  <TextArea fx:id="txtarea" BorderPane.alignment="CENTER" />
+                  <Button fx:id="text_submit_btn" mnemonicParsing="false" onAction="#textaddit" text="create from text" />
                </children>
             </VBox>
          </content>

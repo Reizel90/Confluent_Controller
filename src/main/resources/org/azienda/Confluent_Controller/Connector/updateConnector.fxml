@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="573.0" prefWidth="802.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.azienda.Confluent_Controller.Connector.ConnectorUpdateController">
+    <top>
+        <MenuBar BorderPane.alignment="CENTER">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem fx:id="menu_conn" mnemonicParsing="false" onAction="#Connector_home" text="connectors" />
+                        <MenuItem mnemonicParsing="false" text="save" />
+                        <MenuItem mnemonicParsing="false" text="Close" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="secondo menu">
+                   <items>
+                      <MenuItem  mnemonicParsing="false"  text="item" />
+                   </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="About" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+
+   <center>
+      <VBox>
+         <children>
+            <HBox layoutX="10.0" layoutY="10.0">
+               <children>
+                  <Label text="connector.class: ">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="connector_class" promptText="io.confluent.connect.jdbc.JdbcSourceConnector" text="io.confluent.connect.jdbc.JdbcSourceConnector" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <MenuButton fx:id="connector_class_list" mnemonicParsing="false" text="MenuButton">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Action 1" />
+                      <MenuItem mnemonicParsing="false" text="Action 2" />
+                    </items>
+                  </MenuButton>
+               </children>
+            </HBox>
+            <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="269.0" prefViewportHeight="200.0" prefViewportWidth="600.0" prefWidth="876.0" VBox.vgrow="ALWAYS">
+               <content>
+                  <VBox>
+                     <children>
+                        <TextArea fx:id="txtarea" BorderPane.alignment="CENTER" VBox.vgrow="ALWAYS" />
+                        <Button fx:id="text_submit_btn" mnemonicParsing="false" onAction="#textaddit" text="create from text" />
+                     </children>
+                  </VBox>
+               </content>
+            </ScrollPane>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

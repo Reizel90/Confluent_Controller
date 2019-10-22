@@ -1,8 +1,5 @@
 package org.azienda.Confluent_Controller;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import db.entity.AAAEsempio;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,7 +13,6 @@ import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -105,27 +101,27 @@ public class MainClass extends Application implements EventHandler<ActionEvent> 
 
     }
 
-    public static void jsonExample() throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
-        AAAEsempio example = new AAAEsempio(11, 184, "PALAZZO A");
-        //scrivo su file ma è sempre un nuovo file TODO trovare comando per appendere
-        objectMapper.writeValue(new File("target/example.json"), example);
-
-        String exampleAsString = objectMapper.writeValueAsString(example);
-        //stampa due volte, una con i key maiuscoli e una con i key minuscoli
-        System.out.println("exampleAsString " + exampleAsString);
-        //exampleAsString {"ID":12,"DATE":"0","VALORE":184,"CLASSE":"PALAZZO A","id":12,"date":"0","classe":"PALAZZO A","valore":184}
-
-        AAAEsempio esempio0 = objectMapper.readValue(exampleAsString, AAAEsempio.class);
-        System.out.println("esempio0 " + esempio0.toString() + " - id vlaue: " + esempio0.getID() );
-        //esempio0 db.entity.AAAEsempio@7d0587f1 - id vlaue: 12
-
-        String json = "{\"ID\":12,\"DATE\":\"0\",\"VALORE\":185,\"CLASSE\":\"PALAZZO B\"}";
-        AAAEsempio esempio = objectMapper.readValue(json, AAAEsempio.class);
-        System.out.println(esempio.toString() + " ESEMPIO ID VALUE " + esempio.getID());
-        //db.entity.AAAEsempio@5d76b067 ESEMPIO ID VALUE 12
-    }
+//    public static void jsonExample() throws IOException {
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        objectMapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
+//        AAAEsempio example = new AAAEsempio(11, 184, "PALAZZO A");
+//        //scrivo su file ma è sempre un nuovo file trovare comando per appendere
+//        objectMapper.writeValue(new File("target/example.json"), example);
+//
+//        String exampleAsString = objectMapper.writeValueAsString(example);
+//        //stampa due volte, una con i key maiuscoli e una con i key minuscoli
+//        System.out.println("exampleAsString " + exampleAsString);
+//        //exampleAsString {"ID":12,"DATE":"0","VALORE":184,"CLASSE":"PALAZZO A","id":12,"date":"0","classe":"PALAZZO A","valore":184}
+//
+//        AAAEsempio esempio0 = objectMapper.readValue(exampleAsString, AAAEsempio.class);
+//        System.out.println("esempio0 " + esempio0.toString() + " - id vlaue: " + esempio0.getID() );
+//        //esempio0 db.entity.AAAEsempio@7d0587f1 - id vlaue: 12
+//
+//        String json = "{\"ID\":12,\"DATE\":\"0\",\"VALORE\":185,\"CLASSE\":\"PALAZZO B\"}";
+//        AAAEsempio esempio = objectMapper.readValue(json, AAAEsempio.class);
+//        System.out.println(esempio.toString() + " ESEMPIO ID VALUE " + esempio.getID());
+//        //db.entity.AAAEsempio@5d76b067 ESEMPIO ID VALUE 12
+//    }
 
     public static void local_consumer() {
         Properties props0 = propes("localhost:9092");

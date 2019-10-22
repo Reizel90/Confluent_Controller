@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="710.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.azienda.Confluent_Controller.Connector.ConnectorsController">
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="Menu">
+            <items>
+                  <MenuItem mnemonicParsing="false" text="save" />
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Report">
+    <!--        <items>
+              <MenuItem fx:id="average" mnemonicParsing="false" onAction="#averagerefresh" text="Average" />
+            </items> -->
+              <items>
+                  <MenuItem fx:id="create_connector" mnemonicParsing="false" onAction="#createConnector" text="Create connector" />
+              </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <left>
+      <ScrollPane fitToWidth="true" pannable="true" prefViewportHeight="368.0" prefViewportWidth="200.0">
+         <content>
+            <VBox fx:id="lvbox" alignment="TOP_CENTER" BorderPane.alignment="CENTER">
+               <children>
+                  <Accordion VBox.vgrow="ALWAYS">
+                    <panes>
+                      <TitledPane animated="false" text="Connectors">
+                        <content>
+                          <AnchorPane>
+                                 <children>
+                                    <VBox fx:id="connectorsvbox" />
+                                 </children>
+                              </AnchorPane>
+                        </content>
+                      </TitledPane>
+                    </panes>
+                  </Accordion>
+               </children></VBox>
+         </content>
+      </ScrollPane>
+   </left>
+   <center>
+      <VBox prefHeight="386.0" prefWidth="441.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox>
+               <children>
+                  <Button fx:id="task_btn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#tasksConnector" text="tasks" />
+                  <Button fx:id="view_btn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#viewConnector" text="view" />
+                  <Button fx:id="status_btn" mnemonicParsing="false" onAction="#statusConnector" text="status" />
+                  <Button mnemonicParsing="false" onAction="#createConnector" text="create" />
+                  <Button layoutX="70.0" layoutY="10.0" mnemonicParsing="false" onAction="#updateConnector" text="update" />
+                  <Button mnemonicParsing="false" onAction="#deleteConnector" text="delete" />
+                  <Separator orientation="VERTICAL" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                  </Separator>
+                  <Button layoutX="248.0" layoutY="10.0" mnemonicParsing="false" onAction="#pauseConnector" text="pause" />
+                  <Button layoutX="403.0" layoutY="10.0" mnemonicParsing="false" onAction="#resumeConnector" text="resume" />
+                  <Button layoutX="465.0" layoutY="10.0" mnemonicParsing="false" onAction="#restartConnector" text="restart" />
+               </children>
+            </HBox>
+            <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="430.0" prefViewportHeight="210.0" prefViewportWidth="398.0" prefWidth="898.0">
+               <content>
+                  <TextArea fx:id="textarea" editable="true" />
+               </content>
+            </ScrollPane>
+            <ScrollPane fitToHeight="true" fitToWidth="true" layoutX="10.0" layoutY="41.0" prefViewportHeight="210.0" prefViewportWidth="398.0">
+               <content>
+                  <TextArea fx:id="errorarea" editable="true" />
+               </content>
+            </ScrollPane>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>
