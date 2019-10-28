@@ -11,6 +11,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 import org.azienda.Confluent_Controller.MainClass;
+import org.azienda.Confluent_Controller.MenuBarCreator;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -31,9 +32,11 @@ public class ConnectorUpdateController {
     public TextArea txtarea;
     public Button text_submit_btn;
     public MenuItem menu_conn;
+    public MenuBar menuBar;
 
     public void initialize(URL location, ResourceBundle resources){
-
+        MenuBarCreator mc = new MenuBarCreator();
+        menuBar = mc.init(menuBar);
         try {
             String cmd = String.format("curl http://" + MainClass.connection + ":8083/connectors/" + connector.replaceAll("\"", "") + "/config") ; //work
 

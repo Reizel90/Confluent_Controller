@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
@@ -15,6 +16,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 import org.azienda.Confluent_Controller.MainClass;
+import org.azienda.Confluent_Controller.MenuBarCreator;
 
 import java.io.IOException;
 import java.net.URL;
@@ -24,8 +26,10 @@ import static org.toilelibre.libe.curl.Curl.curl;
 
 public class ConnectorsController implements Initializable {
 
+    private boolean verbose=true;
     private static String current_connector = null;
 
+    public MenuBar menuBar;
     public TextArea textarea;
     public VBox lvbox;
 //    public MenuItem average;
@@ -36,13 +40,17 @@ public class ConnectorsController implements Initializable {
     public TextArea errorarea;
 
 
+
     //@Override
     public void initialize(URL location, ResourceBundle resources) {
         //this method is called as soon as the view is loaded
         //System.out.println("Index is now loaded!");
+        MenuBarCreator mc = new MenuBarCreator();
+        menuBar = mc.init(menuBar);
+
         String cmd = String.format("curl http://" + MainClass.connection + ":8083/connectors/");
 
-        System.out.println("comando: " + cmd);
+        if(verbose)System.out.println("comando: " + cmd);
         try {
             HttpResponse response;
             response = curl(cmd);
@@ -58,7 +66,6 @@ public class ConnectorsController implements Initializable {
                 System.out.println(splitted[i]);
                 createButton(connectorsvbox, splitted[i]);
             }
-            ;
         } catch (Exception ex) {
             ex.printStackTrace();
             swap("connectors.fxml");
@@ -71,8 +78,8 @@ public class ConnectorsController implements Initializable {
         if (s.endsWith("]")) {//copre il caso in cui ho un unico elemento e quindi inizierebbe e finirebbe con una quadra
             s = s.substring(0, s.length() - 1);
         }
-        System.out.println("s: " +s);
-        System.out.println("s.sub: " +s.substring(0,1));
+        if(verbose)System.out.println("s: " +s);
+        if(verbose)System.out.println("s.sub: " +s.substring(0,1));
         if (s.substring(0,1).endsWith("[")){
             s = s.substring(1, s.length()); // need to erase first char "["
         }
@@ -99,17 +106,17 @@ public class ConnectorsController implements Initializable {
     }
 
     public void tasksConnector(ActionEvent actionEvent) {
-        HttpResponse response = commandCurl("tasks");
+        HttpResponse response = curlCommand("tasks");
         printResponse(response);
     }
 
     public void statusConnector(ActionEvent actionEvent) {
-        HttpResponse response = commandCurl("status");
+        HttpResponse response = curlCommand("status");
         printResponse(response);
     }
 
     public void viewConnector(ActionEvent actionEvent) {
-        HttpResponse response = crudCurl("GET");
+        HttpResponse response = curlMethod("GET");
         printResponse(response);
     }
 
@@ -120,7 +127,7 @@ public class ConnectorsController implements Initializable {
 
     public void deleteConnector(ActionEvent actionEvent) {
         if(errorarea.getText().equals("DELETE")){
-            crudCurl("DELETE");
+            curlMethod("DELETE");
             //reload
             swap("connectors.fxml");
         }else{
@@ -128,37 +135,36 @@ public class ConnectorsController implements Initializable {
         }
     }
 
-    public void pauseConnector(ActionEvent actionEvent) {
-        sendCurl("PUT", "pause");
+    public void pauseConnector(ActionEvent actionEvent) { curlCall("PUT", "pause");
     }
 
     public void resumeConnector(ActionEvent actionEvent) {
-        sendCurl("PUT", "resume");
+        curlCall("PUT", "resume");
     }
 
     public void restartConnector(ActionEvent actionEvent) {
-        sendCurl("PUT", "restart");
+        curlCall("PUT", "restart");
     }
 
-    private HttpResponse sendCurl(String CRUD, String command){
-        String cmd = String.format("curl -X " + CRUD + " http://" + MainClass.connection + ":8083/connectors/" + current_connector.replaceAll("\"", "") + "/" + command); //work
-
-        HttpResponse response;
-        return response = curl(cmd);
+    private HttpResponse curlCall(String method, String command){
+        String cmd = String.format("curl -X " + method + " http://" + MainClass.connection + ":8083/connectors/" + current_connector.replaceAll("\"", "") + "/" + command); //work
+        if(verbose)System.out.println("comando: " + cmd);
+        HttpResponse response = curl(cmd);
+        return response;
     }
 
-    private HttpResponse commandCurl(String command){
+    private HttpResponse curlCommand(String command){
         String cmd = String.format("curl http://" + MainClass.connection + ":8083/connectors/" + current_connector.replaceAll("\"", "") + "/" + command); //work
-
-        HttpResponse response;
-        return response = curl(cmd);
+        if(verbose)System.out.println("comando: " + cmd);
+        HttpResponse response = curl(cmd);
+        return response;
     }
 
-    private HttpResponse crudCurl(String CRUD){
-        String cmd = String.format("curl -X " + CRUD + " http://" + MainClass.connection + ":8083/connectors/" + current_connector.replaceAll("\"", "")); //work
-
-        HttpResponse response;
-        return response = curl(cmd);
+    private HttpResponse curlMethod(String method){
+        String cmd = String.format("curl -X " + method + " http://" + MainClass.connection + ":8083/connectors/" + current_connector.replaceAll("\"", "")); //work
+        if(verbose)System.out.println("comando: " + cmd);
+        HttpResponse response = curl(cmd);
+        return response;
     }
 
     private void printResponse(HttpResponse response) {

@@ -15,20 +15,27 @@ public class SelectorController {
 
 
     public void topic_rend(ActionEvent actionEvent) throws IOException {
-        //in order to retrieve the stage for changing scene
-        Stage stage = (Stage) topic_btn.getScene().getWindow();
-        //Parent root = FXMLLoader.load(getClass().getResource("index2.fxml"));
-        Parent root = FXMLLoader.load(getClass().getResource("topic/topics.fxml"));
-        // Swap screen
-        stage.setScene(new Scene(root));
+        swap("topic/topics.fxml");
     }
 
     public void connectors_rend(ActionEvent actionEvent) throws IOException {
-        //in order to retrieve the stage for changing scene
-        Stage stage = (Stage) topic_btn.getScene().getWindow();
-        //Parent root = FXMLLoader.load(getClass().getResource("index2.fxml"));
-        Parent root = FXMLLoader.load(getClass().getResource("connector/connectors.fxml"));
-        // Swap screen
-        stage.setScene(new Scene(root));
+        swap("connector/connectors.fxml");
+    }
+
+    public void ksql_rend(ActionEvent actionEvent) throws IOException {
+        swap("ksql/ksqls.fxml");
+    }
+
+    private void swap(String view) throws IOException {
+        try {
+            //in order to retrieve the stage for changing scene
+            Stage stage = (Stage) topic_btn.getScene().getWindow();
+            //Parent root = FXMLLoader.load(getClass().getResource("index2.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource(view));
+            // Swap screen
+            stage.setScene(new Scene(root));
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 }

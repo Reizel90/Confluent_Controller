@@ -9,7 +9,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="573.0" prefWidth="802.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.azienda.Confluent_Controller.Connector.ConnectorUpdateController">
     <top>
-        <MenuBar BorderPane.alignment="CENTER">
+        <MenuBar fx:id="menuBar" BorderPane.alignment="CENTER">
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
@@ -47,7 +47,7 @@
                         <Insets left="10.0" />
                      </HBox.margin>
                   </TextField>
-                  <MenuButton fx:id="connector_class_list" mnemonicParsing="false" text="MenuButton">
+                  <MenuButton fx:id="connector_class_list" mnemonicParsing="false" text="available connector drivers">
                     <items>
                       <MenuItem mnemonicParsing="false" text="Action 1" />
                       <MenuItem mnemonicParsing="false" text="Action 2" />
@@ -60,7 +60,7 @@
                   <VBox>
                      <children>
                         <TextArea fx:id="txtarea" BorderPane.alignment="CENTER" VBox.vgrow="ALWAYS" />
-                        <Button fx:id="text_submit_btn" mnemonicParsing="false" onAction="#textaddit" text="create from text" />
+                        <Button fx:id="text_submit_btn" mnemonicParsing="false" onAction="#textaddit" text="update" />
                      </children>
                   </VBox>
                </content>

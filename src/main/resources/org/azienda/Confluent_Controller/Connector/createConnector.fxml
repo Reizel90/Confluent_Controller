@@ -7,9 +7,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="573.0" prefWidth="802.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.azienda.Confluent_Controller.Connector.ConnectorCreatorController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="899.0" prefWidth="1064.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.azienda.Confluent_Controller.Connector.ConnectorCreatorController">
     <top>
-        <MenuBar BorderPane.alignment="CENTER">
+        <MenuBar fx:id="menuBar" BorderPane.alignment="CENTER">
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
@@ -35,7 +35,7 @@
    <center>
       <ScrollPane fitToHeight="true" fitToWidth="true" BorderPane.alignment="CENTER">
          <content>
-            <VBox prefHeight="373.0" prefWidth="581.0">
+            <VBox prefHeight="300.0" prefWidth="600.0">
                <children>
                   <HBox>
                      <children>
@@ -249,11 +249,11 @@
       </ScrollPane>
    </center>
    <bottom>
-      <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="269.0" prefViewportHeight="200.0" prefViewportWidth="600.0" prefWidth="876.0">
+      <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="391.0" prefViewportHeight="200.0" prefViewportWidth="600.0" prefWidth="1064.0">
          <content>
             <VBox>
                <children>
-                  <TextArea fx:id="txtarea" BorderPane.alignment="CENTER" />
+                  <TextArea fx:id="txtarea" prefHeight="354.0" prefWidth="1062.0" BorderPane.alignment="CENTER" />
                   <Button fx:id="text_submit_btn" mnemonicParsing="false" onAction="#textaddit" text="create from text" />
                </children>
             </VBox>

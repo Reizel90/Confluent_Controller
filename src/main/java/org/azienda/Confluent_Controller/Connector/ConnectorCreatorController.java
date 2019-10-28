@@ -13,6 +13,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 import org.azienda.Confluent_Controller.MainClass;
+import org.azienda.Confluent_Controller.MenuBarCreator;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,8 +22,11 @@ import static org.toilelibre.libe.curl.Curl.curl;
 
 public class ConnectorCreatorController implements Initializable {
 
+
+    private boolean verbose=false;
     public static String connector = null;
 
+    public MenuBar menuBar;
     public TextField connector_name;
     public TextField connector_class;
     public MenuButton connector_class_list;
@@ -48,12 +52,13 @@ public class ConnectorCreatorController implements Initializable {
     public MenuItem menu_conn;
 
     public void initialize(URL location, ResourceBundle resources){
-
+        MenuBarCreator mc = new MenuBarCreator();
+        menuBar = mc.init(menuBar);
         try {
             String cmd = String.format("curl http://" + MainClass.connection + ":8083/connectors/" + connector.replaceAll("\"", "")+ "/config"); //work
 
             HttpResponse response;
-            System.out.println("comando: " + cmd);
+            if(verbose)System.out.println("comando: " + cmd);
 
             response = curl(cmd);
 
@@ -80,7 +85,7 @@ public class ConnectorCreatorController implements Initializable {
             String cmd2 = String.format("curl http://"+ MainClass.connection +":8083/connector-plugins");
 
             HttpResponse response2;
-            System.out.println("comando2: " + cmd2);
+            if(verbose)System.out.println("comando2: " + cmd2);
 
             response2 = curl(cmd2);
 
@@ -93,7 +98,7 @@ public class ConnectorCreatorController implements Initializable {
             String[] splitted = response_string2.split("\\},\\{");
             connector_class_list.getItems().clear();
             for (int i = 0; i < splitted.length; i++) {
-                System.out.println(splitted[i]);
+                if(verbose)System.out.println(splitted[i]);
                 createMenuItem(connector_class_list, splitted[i]);
             }
 
@@ -112,7 +117,7 @@ public class ConnectorCreatorController implements Initializable {
         connectorConfig = connectorConfig.replace("\n","");
         connectorConfig = connectorConfig.replace(" ","");
         connectorConfig = connectorConfig.replace("\t","");
-        System.out.println(connectorConfig);
+        if(verbose)System.out.println(connectorConfig);
 
         try {
             AddConnector ac = new AddConnector(MainClass.connection + ":8083");
@@ -149,7 +154,7 @@ public class ConnectorCreatorController implements Initializable {
         connectorConfig = connectorConfig.replace("\n","");
         connectorConfig = connectorConfig.replace(" ","");
         connectorConfig = connectorConfig.replace("\t","");
-        System.out.println(connectorConfig);
+        if(verbose)System.out.println(connectorConfig);
 
         try {
             AddConnector ac = new AddConnector(MainClass.connection + ":8083");

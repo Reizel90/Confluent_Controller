@@ -16,7 +16,7 @@
                <font>
                   <Font name="Arial" size="15.0" />
                </font></Button>
-            <Button fx:id="connectors_btn1" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="109.0" mnemonicParsing="false" onAction="#connectors_rend" prefHeight="100.0" prefWidth="300.0" styleClass="btn" text="KSQL" textAlignment="CENTER">
+            <Button fx:id="connectors_btn1" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="109.0" mnemonicParsing="false" onAction="#ksql_rend" prefHeight="100.0" prefWidth="300.0" styleClass="btn" text="KSQL" textAlignment="CENTER">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>

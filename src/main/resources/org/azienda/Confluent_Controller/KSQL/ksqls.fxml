@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="860.0" prefWidth="1225.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.azienda.Confluent_Controller.KSQL.KSQLController">
+   <top>
+      <MenuBar fx:id="menuBar" BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="Menu">
+            <items>
+                  <MenuItem mnemonicParsing="false" text="save" />
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Report">
+    <!--        <items>
+              <MenuItem fx:id="average" mnemonicParsing="false" onAction="#averagerefresh" text="Average" />
+            </items> -->
+              <items>
+                  <MenuItem fx:id="create_connector" mnemonicParsing="false" onAction="#createConnector" text="Create connector" />
+              </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <left>
+      <ScrollPane fitToHeight="true" fitToWidth="true" pannable="true" prefViewportHeight="368.0" prefViewportWidth="200.0">
+         <content>
+            <VBox fx:id="lvbox" alignment="TOP_CENTER" BorderPane.alignment="CENTER">
+               <children>
+                  <Accordion>
+                    <panes>
+                      <TitledPane animated="false" text="Tables">
+                        <content>
+                          <AnchorPane>
+                                 <children>
+                                    <VBox fx:id="tablesvbox" />
+                                 </children>
+                              </AnchorPane>
+                        </content>
+                      </TitledPane>
+                        <TitledPane animated="false" layoutX="10.0" layoutY="10.0" text="Streams">
+                           <content>
+                              <AnchorPane>
+                                 <children>
+                                    <VBox fx:id="streamsvbox" />
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </TitledPane>
+                        <TitledPane animated="false" layoutX="10.0" layoutY="41.0" text="Queries">
+                           <content>
+                              <AnchorPane>
+                                 <children>
+                                    <VBox fx:id="queriesvbox" />
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </TitledPane>
+                    </panes>
+                  </Accordion>
+               </children></VBox>
+         </content>
+      </ScrollPane>
+   </left>
+   <center>
+      <VBox prefHeight="386.0" prefWidth="441.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER_LEFT">
+               <children>
+                  <Button layoutX="248.0" layoutY="10.0" mnemonicParsing="false" onAction="#sendQuery" prefHeight="31.0" prefWidth="55.0" text="send">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin></Button>
+                  <MenuButton fx:id="topic_class_list1" layoutX="807.0" layoutY="15.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" text="examples" textAlignment="CENTER">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#createExample" text="create" />
+                        <MenuItem mnemonicParsing="false" onAction="#selectExample" text="select" />
+                        <MenuItem mnemonicParsing="false" onAction="#dropExample" text="drop" />
+                        <MenuItem mnemonicParsing="false" onAction="#terminateExample" text="termitane" />
+                     </items>
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </MenuButton>
+                  <TextField fx:id="topic_name_txt" alignment="CENTER_RIGHT">
+                     <HBox.margin>
+                        <Insets left="25.0" />
+                     </HBox.margin></TextField>
+                  <MenuButton fx:id="topic_class_list" alignment="CENTER_RIGHT" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="Topic List" textAlignment="CENTER">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Action 1" />
+                      <MenuItem mnemonicParsing="false" text="Action 2" />
+                    </items>
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </MenuButton>
+                  <Button layoutX="446.0" layoutY="15.0" mnemonicParsing="false" onAction="#delete_topic" text="delete topic">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin></Button>
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="5.0" top="5.0" />
+               </padding>
+            </HBox>
+            <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="430.0" prefViewportHeight="210.0" prefViewportWidth="398.0" prefWidth="898.0" VBox.vgrow="ALWAYS">
+                <content>
+                 <TextArea fx:id="topTextArea" editable="true">
+                     <font>
+                        <Font name="Courier New" size="15.0" />
+                     </font></TextArea>
+                </content>
+            </ScrollPane>
+            <HBox layoutX="10.0" layoutY="10.0">
+               <children>
+                  <Button fx:id="task_btn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#tasksConnector" text="tasks">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin></Button>
+                  <Button fx:id="view_btn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#viewConnector" text="view" />
+                  <Button fx:id="status_btn" mnemonicParsing="false" onAction="#statusConnector" text="status" />
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="5.0" top="5.0" />
+               </padding>
+            </HBox>
+            <ScrollPane fitToHeight="true" fitToWidth="true" layoutX="10.0" layoutY="41.0" prefViewportHeight="210.0" prefViewportWidth="398.0" VBox.vgrow="ALWAYS">
+               <content>
+                  <TextArea fx:id="bottomTextArea" editable="true">
+                     <font>
+                        <Font name="Courier New" size="15.0" />
+                     </font></TextArea>
+               </content>
+            </ScrollPane>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

@@ -1,6 +1,7 @@
 package org.azienda.Confluent_Controller;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -96,9 +97,19 @@ public class MainClass extends Application implements EventHandler<ActionEvent> 
 
         Parent root = FXMLLoader.load(getClass().getResource("index.fxml")); //org/azienda/Confluent_Controller/sample.fxml
         primaryStage.setTitle("Confluent Controller");
+        primaryStage.setOnCloseRequest(e->{
+            close();
+        });
+
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
 
+    }
+
+    public static void close() {
+        System.out.println("closing");
+        Platform.exit();
+        System.exit(0);
     }
 
 //    public static void jsonExample() throws IOException {
