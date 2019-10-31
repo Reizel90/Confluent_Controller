@@ -60,7 +60,7 @@ public class IndexController {
             //in order to retrieve the stage for changing scene
             Stage stage = (Stage) connection_field.getScene().getWindow();
             //Parent root = FXMLLoader.load(getClass().getResource("index2.fxml"));
-            Parent root = FXMLLoader.load(getClass().getResource("connector/connectors.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("Connector/connectors.fxml"));
             // Swap screen
             stage.setScene(new Scene(root));
 

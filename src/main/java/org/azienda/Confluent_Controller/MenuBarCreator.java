@@ -31,17 +31,17 @@ public class MenuBarCreator {
 
         MenuItem menuItem2 = new MenuItem("Topic");
         menuItem2.setOnAction(e -> {
-            swap("topic/topics.fxml", menuBar);
+            swap("Topic/topics.fxml", menuBar);
         });
 
         MenuItem menuItem3 = new MenuItem("Connectors");
         menuItem3.setOnAction(e -> {
-            swap("connector/connectors.fxml", menuBar);
+            swap("Connector/connectors.fxml", menuBar);
         });
 
         MenuItem menuItem4 = new MenuItem("Ksql");
         menuItem4.setOnAction(e -> {
-            swap("ksql/ksqls.fxml", menuBar);
+            swap("KSQL/ksqls.fxml", menuBar);
         });
 
         SeparatorMenuItem separator = new SeparatorMenuItem();

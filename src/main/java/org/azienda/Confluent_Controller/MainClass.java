@@ -59,6 +59,9 @@ public class MainClass extends Application implements EventHandler<ActionEvent> 
 //    		    System.out.println("commandline with jar");
 //    			// *************************** launching a jar without arguments **********************************************
 //
+            // Prendo la directory del jar
+//            File jarDir = new File(ClassLoader.getSystemClassLoader().getResource(".").getPath());
+//            System.out.println(jarDir.getAbsolutePath());
 //    			// Spark
 //    			SparkMain.conf = new SparkConf();
 //    			SparkMain.sparkContext = new JavaSparkContext(SparkMain.conf);
@@ -90,10 +93,13 @@ public class MainClass extends Application implements EventHandler<ActionEvent> 
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        System.out.println(getClass().toString());
-        URL x = getClass().getResource("");
-        System.out.println(x.toString());
+        System.out.println("getClass: " + getClass().toString() + "\n\n");
+        URL x = getClass().getResource("Connector/connectors.fxml");
+        System.out.println("getClass.getResource: " + x.toString() + "\n\n");
         //file:/C:/Users/DaNdE/IdeaProjects/Confluent_Controller/target/classes/org/azienda/Confluent_Controller/
+
+        System.out.println( "mainclass class loader res: " + getClass().getResource("index.fxml") + "\n");
+
 
         Parent root = FXMLLoader.load(getClass().getResource("index.fxml")); //org/azienda/Confluent_Controller/sample.fxml
         primaryStage.setTitle("Confluent Controller");
