@@ -4,10 +4,11 @@ import org.azienda.Confluent_Controller.MainClass;
 
 public class ExampleQueries {
 
+
     private static String ksql_head_cmd = String.format(""
             + "curl -X POST http://" + MainClass.connection + ":8088/ksql" + "\n"
             + " -H \"Content-Type: application/vnd.ksql.v1+json; charset=utf-8\" " + "\n"
-            + " -d '{\"ksql\": \""
+            + " -d '{\"ksql\":\""
     );
 
     private static String ksql_tail_cmd =  (""
@@ -54,7 +55,7 @@ public class ExampleQueries {
     );
 
     private static String dropcmd = String.format(""
-            + "DROP STREAM <nome_stream>; "
+            + "DROP STREAM TABLE <nome_stream_o_table>; "
     );
 
 
@@ -65,7 +66,6 @@ public class ExampleQueries {
 
     // funziona
     private static String topic_to_table = String.format(""
-            + ksql_head_cmd
 
             + "\n"
             + "-- Goal: You want to create a table from a topic, which is keyed by userid of type INT. \n" +
@@ -105,7 +105,6 @@ public class ExampleQueries {
             "            VALUE_FORMAT='JSON',\n" +
             "            KEY='persona_id_string');\n"
 
-            + ksql_tail_cmd
     );
 
     public static String getKsql_head_cmd(){

@@ -29,7 +29,6 @@ import static org.toilelibre.libe.curl.Curl.curl;
 
 public class KSQLController implements Initializable {
 
-
     private boolean verbose = false;
     private static String current_connector = null;
     private static String current_table = null;
@@ -79,7 +78,7 @@ public class KSQLController implements Initializable {
                 + ExampleQueries.getKsql_head_cmd()
                 + json
                 + ExampleQueries.getKsql_tail_cmd()
-        );
+        ).replaceAll("\\p{Cc}", ""); //this replaceAll replaces CTRL-CHAR
 
         bottomTextArea.appendText(""
                 + "\n||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n\n"
@@ -127,6 +126,7 @@ public class KSQLController implements Initializable {
 
         String topicNames = topic_name_txt.getText();
         admin.deleteTopics(Collections.singletonList(topicNames));
+        populateTopics();
 //        admin.deleteTopics(Arrays.asList(topicNames));
 //        Logger log;
 //        log.info("Topics '{}' deleted.", topicNames);
@@ -206,7 +206,8 @@ public class KSQLController implements Initializable {
             //1 -/////////- "type":"STREAM","name":"REIZEL90_DBO_ALLARMI","topic":"REIZEL90.dbo.ALLARMI","format":"JSON"}]}]
 
             for (int i = 0; i < splitted.length; i++) {
-                String stream_name = splitted[i].split(",")[1].split(":")[1].replaceAll("\"", "");
+                String stream_name = splitted[i].split(",")[1].split(":")[1]
+                        .replaceAll("\\_", "_").replaceAll("\"", "");
                 // KSQL_PROCESSING_LOG
                 if (verbose) System.out.println("populate streams: " + stream_name);
                 String streamdesccmd = describe(stream_name);
