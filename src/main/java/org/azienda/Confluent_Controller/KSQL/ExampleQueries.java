@@ -5,13 +5,13 @@ import org.azienda.Confluent_Controller.MainClass;
 public class ExampleQueries {
 
 
-    private static String ksql_head_cmd = String.format(""
+    private static String ksql_ddl_head_cmd = String.format(""
             + "curl -X POST http://" + MainClass.connection + ":8088/ksql" + "\n"
             + " -H \"Content-Type: application/vnd.ksql.v1+json; charset=utf-8\" " + "\n"
             + " -d '{\"ksql\":\""
     );
 
-    private static String ksql_tail_cmd =  (""
+    private static String ksql_ddl_tail_cmd =  (""
             + "\", \"streamsProperties\": {"
                                         + "\"ksql.streams.auto.offset.reset\": \"earliest\""
                                         + "}" +
@@ -19,7 +19,7 @@ public class ExampleQueries {
     );
 
     private static String createcmd = String.format(""
-            + ksql_head_cmd
+            + ksql_ddl_head_cmd
 
             + "\n"
             + " CREATE STREAM <nome_Stream> AS SELECT * \nFROM pageviews_original \nWHERE pageid='home';" + "\n"
@@ -36,22 +36,7 @@ public class ExampleQueries {
             + " CREATE TABLE pageviews_home_count AS SELECT userid, COUNT(*) \nFROM pageviews_home \nGROUP BY userid;" + "\n" + "\n"
             + "\n"
 
-            + ksql_tail_cmd
-    );
-
-    private static String selectcmd = String.format(""
-            + "\n da non fare perchè non funziona e rischia di rompere tutto \n"
-            + "\n"
-            + "curl -X POST http://" + MainClass.connection + ":8088/query" + "\n"
-            + " -H \"Content-Type: application/vnd.ksql.v1+json; charset=utf-8\" " + "\n"
-            + " -d '{\"ksql\": \"" + "\n" + "\n"
-
-            + " SELECT * FROM pageviews; " + "\n" + "\n"
-
-            + "\", \"streamsProperties\": {" + "\n"
-            + "\"ksql.streams.auto.offset.reset\": \"earliest\"" + "\n"
-            + "}" + "\n"
-            + "}'"
+            + ksql_ddl_tail_cmd
     );
 
     private static String dropcmd = String.format(""
@@ -107,13 +92,45 @@ public class ExampleQueries {
 
     );
 
-    public static String getKsql_head_cmd(){
-        return ksql_head_cmd;
+    // pericolo
+
+    private static String ksql_select_head_cmd = String.format(""
+            + "curl -X POST http://" + MainClass.connection + ":8088/query" + "\n"
+            + " -H \"Content-Type: application/vnd.ksql.v1+json; charset=utf-8\" " + "\n"
+            + " -d '{\"ksql\": \""
+    );
+
+    private static String ksql_select_tail_cmd = String.format(""
+            + "\", \"streamsProperties\": {" + "\n"
+            + "\"ksql.streams.auto.offset.reset\": \"earliest\"" + "\n"
+            + "}" + "\n"
+            + "}'"
+    );
+
+    private static String selectcmd = String.format(""
+            + "\n da non fare perchè non funziona e rischia di rompere tutto \n"
+            + " al massimo ricordasi di usare LIMIT e tenersi bassi \n"
+            + "\n"
+
+            + " SELECT * \n"
+            + "FROM key_dipendente d\n"
+            + "LEFT JOIN persona_table p ON d.persona_id = p.persona_id \n"
+            + "LIMIT 10;" + "\n" + "\n"
+
+    );
+
+
+    public static String getKsql_ddl_head_cmd(){
+        return ksql_ddl_head_cmd;
     }
 
-    public static String getKsql_tail_cmd(){
-        return ksql_tail_cmd;
+    public static String getKsql_ddl_tail_cmd(){
+        return ksql_ddl_tail_cmd;
     }
+
+    public static String getKsql_select_head_cmd(){ return ksql_select_head_cmd;}
+
+    public static String getKsql_select_tail_cmd() { return ksql_select_tail_cmd;}
 
     public static String getCreatecmd(){
         return createcmd;

@@ -29,6 +29,7 @@ import static org.toilelibre.libe.curl.Curl.curl;
 
 public class KSQLController implements Initializable {
 
+
     private boolean verbose = false;
     private static String current_connector = null;
     private static String current_table = null;
@@ -43,6 +44,7 @@ public class KSQLController implements Initializable {
     public VBox lvbox;
     public MenuItem create_connector;
     public Button status_btn;
+    public Button select_btn;
     public TextArea bottomTextArea;
     public VBox tablesvbox;
     public VBox streamsvbox;
@@ -75,9 +77,9 @@ public class KSQLController implements Initializable {
         bottomTextArea.setText("\n" + json + "\n");
 
         String cmd = String.format(""
-                + ExampleQueries.getKsql_head_cmd()
+                + ExampleQueries.getKsql_ddl_head_cmd()
                 + json
-                + ExampleQueries.getKsql_tail_cmd()
+                + ExampleQueries.getKsql_ddl_tail_cmd()
         ).replaceAll("\\p{Cc}", ""); //this replaceAll replaces CTRL-CHAR
 
         bottomTextArea.appendText(""
@@ -95,6 +97,40 @@ public class KSQLController implements Initializable {
                 + EntityUtils.toString(e)
                         .replaceAll(("\\\\n"), "\n") // cazzo di \ che è escape char sia per java che per regex
                         .replaceAll(",", ",\n")
+                + "\n\n||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n\n\n\n"
+        );
+    }
+
+    public void selectConnector(ActionEvent actionEvent) throws IOException {
+
+        // .replace("/\s\s+/g", " ")  want to cover spaces, tabs, newlines, etc.
+        // .replace(/  +/g, ' ')    want to cover only spaces.
+//        String json = String.format(topTextArea.getText().trim());
+        String json = String.format(bottomTextArea.getText().replaceAll("\n", " "));
+
+        topTextArea.setText("\n" + json + "\n");
+
+        String cmd = String.format(""
+                + ExampleQueries.getKsql_select_head_cmd()
+                + json
+                + ExampleQueries.getKsql_select_tail_cmd()
+        ).replaceAll("\\p{Cc}", ""); //this replaceAll replaces CTRL-CHAR
+
+        topTextArea.appendText(""
+                + "\n||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n\n"
+                + cmd
+                + "\n\n||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n"
+        );
+
+        HttpResponse response = curl(cmd);
+        HttpEntity e = response.getEntity();
+
+        init();
+        topTextArea.appendText(""
+                + "\n||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n\n"
+                + EntityUtils.toString(e)
+                .replaceAll(("\\\\n"), "\n") // cazzo di \ che è escape char sia per java che per regex
+                .replaceAll("\\{", "{\n")
                 + "\n\n||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n\n\n\n"
         );
     }
@@ -461,6 +497,5 @@ public class KSQLController implements Initializable {
         // Swap screen
         stage.setScene(new Scene(root));
     }
-
 
 }

@@ -128,7 +128,7 @@
             </ScrollPane>
             <HBox layoutX="10.0" layoutY="10.0">
                <children>
-                  <Button fx:id="task_btn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#tasksConnector" text="tasks">
+                  <Button fx:id="select_btn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#selectConnector" text="select">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin></Button>
