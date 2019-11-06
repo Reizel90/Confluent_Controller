@@ -29,6 +29,7 @@ import static org.toilelibre.libe.curl.Curl.curl;
 
 public class KSQLController implements Initializable {
 
+
     private boolean verbose = false;
     private static String current_connector = null;
     private static String current_table = null;
@@ -51,7 +52,7 @@ public class KSQLController implements Initializable {
     public CheckBox brace_chk;
     public CheckBox comma_chk;
     public CheckBox enable_select_chk;
-
+    public CheckBox redetop_chk;
 
     //@Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -106,6 +107,7 @@ public class KSQLController implements Initializable {
     public void selectConnector(ActionEvent actionEvent) throws IOException {
 
         if(enable_select_chk.isSelected()) {
+            enable_select_chk.setSelected(false);
             // .replace("/\s\s+/g", " ")  want to cover spaces, tabs, newlines, etc.
             // .replace(/  +/g, ' ')    want to cover only spaces.
 //        String json = String.format(topTextArea.getText().trim());
@@ -136,6 +138,7 @@ public class KSQLController implements Initializable {
                     .replaceAll("\\{", "{\n")
                     + "\n\n||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n\n\n\n"
             );
+
         }else{
             topTextArea.setText(""
                     + "\n||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n\n"
@@ -151,8 +154,8 @@ public class KSQLController implements Initializable {
     }
 
     public void selectExample(ActionEvent actionEvent) {
-        topTextArea.clear();
-        topTextArea.setText(ExampleQueries.getSelectcmd());
+            topTextArea.clear();
+            topTextArea.setText(ExampleQueries.getSelectcmd());
     }
 
     public void dropExample(ActionEvent actionEvent) {
@@ -493,8 +496,15 @@ public class KSQLController implements Initializable {
                 response_string = response_string.replaceAll("}", "}\n");
 
             if (verbose) System.out.println("print response: " + response_string);
-            bottomTextArea.clear();
-            bottomTextArea.setText(response_string);
+
+
+            if(redetop_chk.isSelected()){
+                topTextArea.clear();
+                topTextArea.setText(response_string);
+            }else {
+                bottomTextArea.clear();
+                bottomTextArea.setText(response_string);
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }

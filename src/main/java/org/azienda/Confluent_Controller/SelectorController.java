@@ -15,15 +15,15 @@ public class SelectorController {
 
 
     public void topic_rend(ActionEvent actionEvent) throws IOException {
-        swap("topic/topics.fxml");
+        swap("Topic/topics.fxml");
     }
 
     public void connectors_rend(ActionEvent actionEvent) throws IOException {
-        swap("connector/connectors.fxml");
+        swap("Connector/connectors.fxml");
     }
 
     public void ksql_rend(ActionEvent actionEvent) throws IOException {
-        swap("ksql/ksqls.fxml");
+        swap("KSQL/ksqls.fxml");
     }
 
     private void swap(String view) throws IOException {

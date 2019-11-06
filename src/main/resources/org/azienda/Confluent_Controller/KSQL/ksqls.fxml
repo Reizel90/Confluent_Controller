@@ -138,6 +138,11 @@
                         <Insets left="5.0" />
                      </HBox.margin>
                   </CheckBox>
+                  <CheckBox fx:id="redetop_chk" mnemonicParsing="false" text="redirect details above">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </CheckBox>
                   <Region HBox.hgrow="ALWAYS" />
                   <CheckBox fx:id="brace_chk" mnemonicParsing="false" text="Bracettes nl">
                      <HBox.margin>
