@@ -29,7 +29,6 @@ import static org.toilelibre.libe.curl.Curl.curl;
 
 public class KSQLController implements Initializable {
 
-
     private boolean verbose = false;
     private static String current_connector = null;
     private static String current_table = null;
@@ -49,6 +48,9 @@ public class KSQLController implements Initializable {
     public VBox tablesvbox;
     public VBox streamsvbox;
     public VBox queriesvbox;
+    public CheckBox brace_chk;
+    public CheckBox comma_chk;
+    public CheckBox enable_select_chk;
 
 
     //@Override
@@ -103,36 +105,44 @@ public class KSQLController implements Initializable {
 
     public void selectConnector(ActionEvent actionEvent) throws IOException {
 
-        // .replace("/\s\s+/g", " ")  want to cover spaces, tabs, newlines, etc.
-        // .replace(/  +/g, ' ')    want to cover only spaces.
+        if(enable_select_chk.isSelected()) {
+            // .replace("/\s\s+/g", " ")  want to cover spaces, tabs, newlines, etc.
+            // .replace(/  +/g, ' ')    want to cover only spaces.
 //        String json = String.format(topTextArea.getText().trim());
-        String json = String.format(bottomTextArea.getText().replaceAll("\n", " "));
+            String json = String.format(bottomTextArea.getText().replaceAll("\n", " "));
 
-        topTextArea.setText("\n" + json + "\n");
+            topTextArea.setText("\n" + json + "\n");
 
-        String cmd = String.format(""
-                + ExampleQueries.getKsql_select_head_cmd()
-                + json
-                + ExampleQueries.getKsql_select_tail_cmd()
-        ).replaceAll("\\p{Cc}", ""); //this replaceAll replaces CTRL-CHAR
+            String cmd = String.format(""
+                    + ExampleQueries.getKsql_select_head_cmd()
+                    + json
+                    + ExampleQueries.getKsql_select_tail_cmd()
+            ).replaceAll("\\p{Cc}", ""); //this replaceAll replaces CTRL-CHAR
 
-        topTextArea.appendText(""
-                + "\n||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n\n"
-                + cmd
-                + "\n\n||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n"
-        );
+            topTextArea.appendText(""
+                    + "\n||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n\n"
+                    + cmd
+                    + "\n\n||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n"
+            );
 
-        HttpResponse response = curl(cmd);
-        HttpEntity e = response.getEntity();
+            HttpResponse response = curl(cmd);
+            HttpEntity e = response.getEntity();
 
-        init();
-        topTextArea.appendText(""
-                + "\n||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n\n"
-                + EntityUtils.toString(e)
-                .replaceAll(("\\\\n"), "\n") // cazzo di \ che è escape char sia per java che per regex
-                .replaceAll("\\{", "{\n")
-                + "\n\n||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n\n\n\n"
-        );
+            init();
+            topTextArea.appendText(""
+                    + "\n||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n\n"
+                    + EntityUtils.toString(e)
+                    .replaceAll(("\\\\n"), "\n") // cazzo di \ che è escape char sia per java che per regex
+                    .replaceAll("\\{", "{\n")
+                    + "\n\n||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n\n\n\n"
+            );
+        }else{
+            topTextArea.setText(""
+                    + "\n||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n\n"
+                    + "ARE YOU SURE YOU WANT TO SEND THIS?"
+                    + "\n\n||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n\n\n\n"
+            );
+        }
     }
 
     public void createExample(ActionEvent actionEvent) {
@@ -279,7 +289,7 @@ public class KSQLController implements Initializable {
             String streams = response_string.split("\"tables\":\\[")[1];
             String[] splitted = streams.split("},\\{");
 
-            if(splitted.length!=1) // DEVO AVERE ALMENO DUE TABELLE PER ESSERE MOSTRATE @TODO MIGLIORARE
+            //if(splitted.length!=1) // DEVO AVERE ALMENO DUE TABELLE PER ESSERE MOSTRATE @TODO MIGLIORARE
                 for (int i = 0; i < splitted.length; i++) {
                     String table_name = splitted[i].split(",")[1].split(":")[1].replaceAll("\"", "");
                     // KSQL_PROCESSING_LOG
@@ -288,6 +298,7 @@ public class KSQLController implements Initializable {
                     createButton(tablesvbox, table_name, tabledesccmd);
                 }
         } catch (Exception ex) {
+            System.out.println("populate table error: ");
             ex.printStackTrace();
             //swap("ksql.fxml");
         }
@@ -348,7 +359,7 @@ public class KSQLController implements Initializable {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            swap("connectors.fxml");
+            swap("ksqls.fxml");
         }
     }
 
@@ -474,7 +485,12 @@ public class KSQLController implements Initializable {
             String response_string = null;
 
             response_string = EntityUtils.toString(e);
-            response_string = response_string.replaceAll(",", ",\n");
+
+            if(comma_chk.isSelected())
+                response_string = response_string.replaceAll(",", ",\n");
+
+            if(brace_chk.isSelected())
+                response_string = response_string.replaceAll("}", "}\n");
 
             if (verbose) System.out.println("print response: " + response_string);
             bottomTextArea.clear();

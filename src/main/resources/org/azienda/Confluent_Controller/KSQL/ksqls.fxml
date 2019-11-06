@@ -80,7 +80,7 @@
                <children>
                   <Button layoutX="248.0" layoutY="10.0" mnemonicParsing="false" onAction="#sendQuery" prefHeight="31.0" prefWidth="55.0" text="send">
                      <HBox.margin>
-                        <Insets right="10.0" />
+                        <Insets left="5.0" right="10.0" />
                      </HBox.margin></Button>
                   <MenuButton fx:id="topic_class_list1" layoutX="807.0" layoutY="15.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" text="examples" textAlignment="CENTER">
                      <items>
@@ -93,9 +93,10 @@
                         <Insets left="5.0" />
                      </HBox.margin>
                   </MenuButton>
+                  <Region HBox.hgrow="ALWAYS" />
                   <TextField fx:id="topic_name_txt" alignment="CENTER_RIGHT">
                      <HBox.margin>
-                        <Insets left="25.0" />
+                        <Insets left="5.0" />
                      </HBox.margin></TextField>
                   <MenuButton fx:id="topic_class_list" alignment="CENTER_RIGHT" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="Topic List" textAlignment="CENTER">
                     <items>
@@ -108,7 +109,7 @@
                   </MenuButton>
                   <Button layoutX="446.0" layoutY="15.0" mnemonicParsing="false" onAction="#delete_topic" text="delete topic">
                      <HBox.margin>
-                        <Insets left="5.0" />
+                        <Insets left="5.0" right="5.0" />
                      </HBox.margin></Button>
                </children>
                <VBox.margin>
@@ -126,14 +127,28 @@
                      </font></TextArea>
                 </content>
             </ScrollPane>
-            <HBox layoutX="10.0" layoutY="10.0">
+            <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0">
                <children>
                   <Button fx:id="select_btn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#selectConnector" text="select">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin></Button>
-                  <Button fx:id="view_btn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#viewConnector" text="view" />
-                  <Button fx:id="status_btn" mnemonicParsing="false" onAction="#statusConnector" text="status" />
+                  <CheckBox fx:id="enable_select_chk" mnemonicParsing="false" text="enable select">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </CheckBox>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <CheckBox fx:id="brace_chk" mnemonicParsing="false" text="Bracettes nl">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </CheckBox>
+                  <CheckBox fx:id="comma_chk" layoutX="183.0" layoutY="15.0" mnemonicParsing="false" text="Comma nl">
+                     <HBox.margin>
+                        <Insets left="5.0" right="10.0" />
+                     </HBox.margin>
+                  </CheckBox>
                </children>
                <VBox.margin>
                   <Insets />
